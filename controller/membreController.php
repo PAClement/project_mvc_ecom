@@ -6,6 +6,7 @@ require_once("../view/classes/addons.php");
 class membreController
 {
 
+    //Module redirection to space member if connected
     public static function mySpace()
     {
         if (isset($_SESSION['user_id'])) {
@@ -18,6 +19,7 @@ class membreController
         }
     }
 
+    //Page user Account: with modification suppresion & deconnection
     public static function myAccount($editData = null)
     {
         function formCheck(array $data): bool
@@ -37,7 +39,6 @@ class membreController
 
             $conn = new ModelUser();
             $info = $conn->getUserInfo($_SESSION['user_id']);
-
             if ($editData) {
 
                 $editData = array_map(function ($a) {
@@ -54,11 +55,11 @@ class membreController
                 } else {
 
                     $editError = "Vos informations ne sont pas conformes";
-                    require('../view/auth/mySpace/myAccount.php');
+                    require('../view/auth/espaceMembre/myAccount.php');
                 }
             } else {
                 $editError = "";
-                require('../view/auth/mySpace/myAccount.php');
+                require('../view/auth/espaceMembre/myAccount.php');
             }
         } else {
             $editError = "";

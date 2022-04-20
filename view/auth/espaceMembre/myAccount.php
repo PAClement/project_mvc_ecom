@@ -1,4 +1,4 @@
-<?php $title = 'Membre'; ?>
+<?php $title = 'MyAccount'; ?>
 
 <?php ob_start(); ?>
 
@@ -47,6 +47,8 @@
             <ul class="list-group mb-5">
                 <li class="list-group-item"><strong>Votre mail : </strong><?= $info['mail'] ?></li>
                 <li class="list-group-item"><strong>Votre address : </strong><?= $info['address'] ?></li>
+                <li class="list-group-item"><strong>Votre city : </strong><?= $info['city'] ?></li>
+                <li class="list-group-item"><strong>Votre Postal_code : </strong><?= $info['postal_code'] ?></li>
                 <li class="list-group-item"><strong>Votre tel : </strong><?= $info['tel'] ?></li>
                 <li class="list-group-item"><strong>Date d'inscription : </strong><?= $info['date_inscription'] ?></li>
             </ul>

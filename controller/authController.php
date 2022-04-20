@@ -7,6 +7,7 @@ require_once("../view/classes/addons.php");
 class authController
 {
 
+  //connection module
   public static function userConnect($data = null)
   {
     if ($data) {
@@ -37,8 +38,10 @@ class authController
     }
   }
 
+  //inscription module
   public static function userInscription($data = null)
   {
+    //check if informations on formulaire are conform
     function formCheck(array $data): bool
     {
       $isOk = true;
@@ -115,6 +118,7 @@ class authController
     }
   }
 
+  //module deconnection
   public static function deconnect()
   {
     session_unset();
@@ -123,6 +127,7 @@ class authController
     ViewTemplate::response("danger", "Deconnexion reussi ! A bientôt !", "index.php");
   }
 
+  //module suppression account
   public static function deleteAccount($user_id)
   {
 
@@ -140,6 +145,7 @@ class authController
     }
   }
 
+  //module if user forget password [NOT INCLUDE ON PROJECT NOW]
   public static function forgetPassword($forgetData = null, $newPassword = null)
   {
 

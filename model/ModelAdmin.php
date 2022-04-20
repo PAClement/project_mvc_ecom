@@ -10,8 +10,10 @@ class ModelAdmin
     private $mail;
     private $tel;
     private $address;
+    private $city;
+    private $postal_code;
 
-    public function __construct($id = null, $nom = null, $prenom = null, $mail = null, $address = null, $tel = null)
+    public function __construct($id = null, $nom = null, $prenom = null, $mail = null, $address = null, $city = null, $postal_code = null, $tel = null)
     {
         $this->id = $id;
         $this->nom = $nom;
@@ -19,6 +21,8 @@ class ModelAdmin
         $this->mail = $mail;
         $this->tel = $tel;
         $this->address = $address;
+        $this->city = $city;
+        $this->postal_code = $postal_code;
     }
 
     function getAllUser()
@@ -107,6 +111,46 @@ class ModelAdmin
     public function setAddress($address)
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of postal_code
+     */
+    public function getPostalCode()
+    {
+        return $this->postal_code;
+    }
+
+    /**
+     * Set the value of postal_code
+     *
+     * @return  self
+     */
+    public function setPostalCode($postal_code)
+    {
+        $this->postal_code = $postal_code;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of city
+     */
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set the value of city
+     *
+     * @return  self
+     */
+    public function setCity($city)
+    {
+        $this->city = $city;
 
         return $this;
     }

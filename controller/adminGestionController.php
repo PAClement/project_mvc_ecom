@@ -3,6 +3,8 @@ require_once("../model/ModelAdmin.php");
 
 class adminGestionController
 {
+
+  //Access to admin space
   public static function adminSpace()
   {
 
@@ -22,6 +24,7 @@ class adminGestionController
     }
   }
 
+  //Access to admin detail account on ADMIN SPACE
   public static function adminAccount()
   {
     if (isset($_SESSION['user_id'])) {
@@ -40,6 +43,7 @@ class adminGestionController
     }
   }
 
+  //list of users on database
   public static function userDisplay()
   {
 
