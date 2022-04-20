@@ -21,7 +21,7 @@ class ModelUser
         $this->address = $address;
     }
 
-    function getUser($mail)
+    public function getUser($mail)
     {
 
         $idcon = connexion();
@@ -33,7 +33,7 @@ class ModelUser
         return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getUserById($id)
+    public function getUserById($id)
     {
         $idcon = connexion();
         $requete = $idcon->prepare("
@@ -44,7 +44,7 @@ class ModelUser
         return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
-    function getUserInfo($id)
+    public function getUserInfo($id)
     {
 
         $idcon = connexion();
@@ -58,7 +58,7 @@ class ModelUser
         return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
-    function signUp($info)
+    public function signUp($info)
     {
 
         $idcon = connexion();
@@ -73,18 +73,45 @@ class ModelUser
         return $requete2->execute(array($info['mail'], $info['nom'], $info['prenom'], $info['address'], $info['tel'], $info['date_inscription']));
     }
 
-    function tokenVerif($token)
+    public function tokenVerif($token, $email)
     {
         $idcon = connexion();
         $requete = $idcon->prepare("
-        SELECT `token` FROM `users` WHERE token = ?
+        SELECT `token` FROM `users` WHERE token = ? || mail = ?
         ");
 
-        $requete->execute(array($token));
+        $requete->execute(array($token, $email));
 
         return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
+    public function deleteAccount($user_id)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        DELETE FROM `user_info` WHERE user_id = ?
+        ");
+
+        $requete->execute(array($user_id));
+
+        $requete2 = $idcon->prepare("
+        DELETE FROM `users` WHERE id = ? 
+        ");
+
+
+        $requete2->execute(array($user_id));
+    }
+
+    public function editAccount($editData, $id)
+    {
+        $idcon = connexion();
+        $requete = $idcon->prepare("
+        UPDATE `user_info` SET `nom`= ? ,`prenom`= ? ,`address`= ?,`tel`= ? WHERE user_id = ?
+        ");
+
+        return $requete->execute(array($editData['nom'], $editData['prenom'], $editData['address'], $editData['tel'], $id));
+    }
 
     /*
   

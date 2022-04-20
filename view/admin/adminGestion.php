@@ -2,6 +2,8 @@
 
 <?php ob_start();
 
+include('../view/includes/header.php');
+
 if (count($tab) > 0) {
 ?>
 
@@ -64,6 +66,10 @@ if (count($tab) > 0) {
       </tbody>
     </table>
   </div>
+
+
+
+  <?php include('../view/includes/footer.php'); ?>
 
   <?php $content = ob_get_clean(); ?>
 

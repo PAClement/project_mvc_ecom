@@ -1,6 +1,7 @@
-<?php $title = 'Connexion'; ?>
+<?php $title = 'Connexion';
 
-<?php ob_start(); ?>
+ob_start(); ?>
+
 
 <div class="container my-5 col-6">
   <h1 class="mb-3">Connexion</h1>
@@ -13,7 +14,8 @@
       <label for="exampleInputPassword1">Password</label>
       <input type="password" name="password" class="form-control" id="exampleInputPassword1">
     </div>
-    <button type="submit" name="connexion" class="btn btn-primary">Se connecter</button>
+    <!-- <a href="index.php?action=forgetPassword">Mot de passe oublié ?</a><br> -->
+    <button type="submit" name="connexion" class="btn btn-primary mt-5">Se connecter</button>
   </form>
   <?php
   if ($error) {
@@ -22,6 +24,11 @@
   <?php
   }
   ?>
+
+  <h3>Pas de compte ? <a href="index.php?action=inscription"> Vous inscire</a> !</h3>
+
+
+  <a href="index.php" class="btn btn-warning"><i class='bx bx-search-alt'></i> Découvrir le site</a>
 </div>
 
 
