@@ -10,31 +10,36 @@ class authController
   //connection module
   public static function userConnect($data = null)
   {
-    if ($data) {
-      if (isset($data['connexion'])) {
-        $res = new ModelUser();
-        $info = $res->getUser(htmlspecialchars($data['mail']));
-        if ($info) {
-          if (password_verify(htmlspecialchars($data['password']), $info['password'])) {
+    if (!isset($_SESSION['user_id'])) {
+      if ($data) {
+        if (isset($data['connexion'])) {
+          $res = new ModelUser();
+          $info = $res->getUser(htmlspecialchars($data['mail']));
+          if ($info) {
+            if (password_verify(htmlspecialchars($data['password']), $info['password'])) {
 
-            $_SESSION['user_id'] = $info['id'];
-            ViewTemplate::response("success", "Connexion reussi !", "index.php");
+              $_SESSION['user_id'] = $info['id'];
+              ViewTemplate::response("success", "Connexion reussi !", "index.php");
+            } else {
+              $error = "Email ou mot de passe incorrect ! ";
+              require('../view/auth/formConnexion.php');
+            }
           } else {
             $error = "Email ou mot de passe incorrect ! ";
             require('../view/auth/formConnexion.php');
           }
         } else {
-          $error = "Email ou mot de passe incorrect ! ";
-          require('../view/auth/formConnexion.php');
+          $error = "";
+
+          require('../view/accueil.php');
         }
       } else {
         $error = "";
-
-        require('../view/accueil.php');
+        require('../view/auth/formConnexion.php');
       }
     } else {
-      $error = "";
-      require('../view/auth/formConnexion.php');
+
+      header('Location: index.php');
     }
   }
 
@@ -72,42 +77,48 @@ class authController
       return $isOk;
     }
 
-    if ($data) {
+    if (!isset($_SESSION['user_id'])) {
+      if ($data) {
 
-      $sign = new ModelUser();
-      if (isset($data["inscription"])) {
-        if (!$sign->getUser($data['mail'])) {
-          if (formCheck($data)) {
+        $sign = new ModelUser();
+        if (isset($data["inscription"])) {
+          if (!$sign->getUser($data['mail'])) {
+            if (formCheck($data)) {
 
-            $data = array_map(function ($a) {
-              return htmlspecialchars($a);
-            }, $data);
+              $data = array_map(function ($a) {
+                return htmlspecialchars($a);
+              }, $data);
 
-            do {
-              //generation token et verification si le token existe deja
-              $token = mt_rand();
-            } while ($token == $sign->tokenVerif($token, null));
+              do {
+                //generation token et verification si le token existe deja
+                $token = mt_rand();
+              } while ($token == $sign->tokenVerif($token, null));
 
 
-            array_push($data, $data['token'] = $token);
-            array_push($data, $data['date_inscription'] = date("Y-m-d"));
-            $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+              array_push($data, $data['token'] = $token);
+              array_push($data, $data['date_inscription'] = date("Y-m-d"));
+              $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
-            if ($sign->signUp($data)) {
+              if ($sign->signUp($data)) {
 
-              $tab = $sign->getUser($data['mail']);
-              $_SESSION['user_id'] = $tab['id'];
-              ViewTemplate::response("success", "Vous êtes inscrit !", "index.php");
+                $tab = $sign->getUser($data['mail']);
+                $_SESSION['user_id'] = $tab['id'];
+                ViewTemplate::response("success", "Vous êtes inscrit !", "index.php");
+              } else {
+                $error = "Une erreur est survenue ! ";
+                require('../view/auth/formInscription.php');
+              }
             } else {
-              $error = "Une erreur est survenue ! ";
+              $error = "Il y'a un problème dans le formulaire ! ";
               require('../view/auth/formInscription.php');
             }
           } else {
-            $error = "Il y'a un problème dans le formulaire ! ";
+            $error = "Compte déjà existant ! ";
             require('../view/auth/formInscription.php');
           }
         } else {
-          $error = "Compte déjà existant ! ";
+
+          $error = "";
           require('../view/auth/formInscription.php');
         }
       } else {
@@ -117,18 +128,23 @@ class authController
       }
     } else {
 
-      $error = "";
-      require('../view/auth/formInscription.php');
+      header('Location: index.php');
     }
   }
 
   //module deconnection
   public static function deconnect()
   {
-    session_unset();
-    session_destroy();
+    if (isset($_SESSION['user_id'])) {
 
-    ViewTemplate::response("danger", "Deconnexion reussi ! A bientôt !", "index.php");
+      session_unset();
+      session_destroy();
+
+      ViewTemplate::response("danger", "Deconnexion reussi ! A bientôt !", "index.php");
+    } else {
+
+      header('Location: index.php');
+    }
   }
 
   //module suppression account
@@ -146,6 +162,9 @@ class authController
         session_destroy();
         ViewTemplate::response("danger", "Votre compte à bien été supprimé ! Merci d'avoir utilisé notre service !", "index.php?action=inscription");
       }
+    } else {
+
+      header('Location: index.php');
     }
   }
 

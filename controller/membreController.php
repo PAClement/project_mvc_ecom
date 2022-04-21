@@ -62,8 +62,8 @@ class membreController
                 require('../view/auth/espaceMembre/myAccount.php');
             }
         } else {
-            $editError = "";
-            require('../view/accueil.php');
+
+            header('Location: index.php');
         }
     }
 }
