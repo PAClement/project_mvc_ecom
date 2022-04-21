@@ -73,6 +73,7 @@ class authController
     }
 
     if ($data) {
+
       $sign = new ModelUser();
       if (isset($data["inscription"])) {
         if (!$sign->getUser($data['mail'])) {
@@ -83,14 +84,17 @@ class authController
             }, $data);
 
             do {
+              //generation token et verification si le token existe deja
               $token = mt_rand();
             } while ($token == $sign->tokenVerif($token, null));
+
 
             array_push($data, $data['token'] = $token);
             array_push($data, $data['date_inscription'] = date("Y-m-d"));
             $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
             if ($sign->signUp($data)) {
+
               $tab = $sign->getUser($data['mail']);
               $_SESSION['user_id'] = $tab['id'];
               ViewTemplate::response("success", "Vous êtes inscrit !", "index.php");
@@ -163,7 +167,10 @@ class authController
 
     $conn = new ModelUser();
 
+    // Verification de le provenance des données 
     if ($email) {
+
+      //Verification si le compte existe ou non, si oui recuperation du token et de l'email
 
       $user = $conn->getUser($email['mail']);
       if ($user) {
@@ -176,25 +183,36 @@ class authController
         ViewTemplate::response("danger", $email['mail'] . " n'existe pas !", "index.php?action=connexion");
       }
     } else if ($password) {
+
+      //Check si le password est conforme et si le token de la base et du formulaire sont identique puis generation du nouveau token
+
       $user = $conn->getUser($password['mail']);
 
       if (passCheck($password)) {
 
-        $password['newPassword'] = htmlspecialchars($password['newPassword']);
-        $token = htmlspecialchars($token);
+        if ($user['token'] == $password['token']) {
+          $password['newPassword'] = htmlspecialchars($password['newPassword']);
+          $token = htmlspecialchars($token);
 
-        do {
-          $token = mt_rand();
-        } while ($token == $conn->tokenVerif($token, null));
+          do {
+            $token = mt_rand();
+          } while ($token == $conn->tokenVerif($token, null));
 
-        $newPass = password_hash($password['newPassword'], PASSWORD_DEFAULT);
+          $newPass = password_hash($password['newPassword'], PASSWORD_DEFAULT);
 
-        if ($conn->passUpdate($newPass, $password['mail'], $token)) {
+          if ($conn->passUpdate($newPass, $password['mail'], $token)) {
 
-          ViewTemplate::response("success", "Votre nouveau mot de passe à bien été modifié", "index.php?action=connexion");
+            ViewTemplate::response("success", "Votre nouveau mot de passe à bien été modifié", "index.php?action=connexion");
+          } else {
+
+            ViewTemplate::response("danger", "Un problème est survenue", "index.php?action=connexion");
+          }
         } else {
 
-          ViewTemplate::response("danger", "Un problème est survenue", "index.php?action=connexion");
+          $email = $user['mail'];
+          $token = $user['token'];
+          $errorForgotPassword = 'Le token n\'est pas conforme';
+          require('../view/auth/forgetPassword.php');
         }
       } else {
 
