@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --main-bg-color: #15202B;
+  --main-bg-orange-color: #ff7a00;
+  --main-bg-white-color: #e2e2e2;
+  --main-bg-test1-color: #1e2732;
+  --main-bg-test2-color: #8A98A5;
+}
+
+
+* {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+.bg-white {
+  background-color: var(--main-bg-white-color) !important;
+}
+
+.bg-main {
+  background-color: var(--main-bg-color) !important;
+}
+
+.bg-orange {
+  background-color: var(--main-bg-orange-color) !important;
+}
+
+.btn-bg-orange:hover {
+
+  background-color: #fa912e !important;
+}
+
+.bg-secondaire-main {
+  background-color: var(--main-bg-test1-color) !important;
+}
+
+/**
+BTN SECONDAIRE ORANGE
+*/
+
+.btn-orange-outline {
+  border-color: var(--main-bg-orange-color) !important;
+  color: var(--main-bg-orange-color) !important;
+}
+
+.btn-orange-outline:hover {
+  background-color: var(--main-bg-orange-color) !important;
+  color: white !important;
+}
+
+/**
+BORDER COLOR
+*/
+
+.border-main-orange {
+  border-bottom: 3px solid var(--main-bg-orange-color);
+}
+
+/*
+* TEXT COLOR
+**/
+
+.p-color-orange {
+  color: var(--main-bg-orange-color) !important;
+}

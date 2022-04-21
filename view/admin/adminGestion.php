@@ -32,7 +32,7 @@ if (count($tab) > 0) {
             <td><?= $value['password'] ?></td>
             <td><?= $value['role'] ?></td>
             <td>
-              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="<?= "#modal_" . $value['id'] ?>">
+              <button type="button" class="btn btn-info text-white" data-bs-toggle="modal" data-bs-target="<?= "#modal_" . $value['id'] ?>">
                 Information
               </button>
             </td>

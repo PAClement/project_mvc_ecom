@@ -15,7 +15,7 @@ class membreController
             require('../view/auth/mySpace.php');
         } else {
 
-            header('location : index.php');
+            header('Location: index.php');
         }
     }
 

@@ -6,33 +6,37 @@ if (isset($_SESSION['user_id'])) {
 }
 ?>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
-  <div class="container-fluid">
-    <a class="navbar-brand fs-2" href="index.php">ECOM</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <!-- <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">accueil</a>
-        </li> -->
-      </ul>
-      <div class="d-flex">
-        <?php if (!isset($_SESSION['user_id'])) { ?>
-          <a class="btn btn-outline-primary" href="index.php?action=connexion">Sign in</a>
-          <a class="btn btn-primary mx-3" href="index.php?action=inscription">Sign up</a>
-        <?php } else if ($authorization['role_id'] == 1) {
-        ?>
-          <a class="btn btn-outline-primary mx-3" href="index.php?action=adminSpace">Espace Administration</a>
-        <?php
-        } else {
-        ?>
-          <a class="btn btn-outline-primary mx-3" href="index.php?action=mySpace">Espace Membre</a>
+<nav class="py-2 bg-main">
+  <div class="container d-flex flex-wrap py-2">
+    <ul class="nav me-auto">
+      <li class="nav-item"><a href="#" class="nav-link link-light px-2 ">CATEGORY 1</a></li>
+      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 2</a></li>
+      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 3</a></li>
+      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 4</a></li>
+      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 5</a></li>
+    </ul>
+    <ul class="nav">
+      <?php if (!isset($_SESSION['user_id'])) { ?>
 
-        <?php
-        } ?>
-      </div>
-    </div>
+        <a class="btn btn-orange-outline" href="index.php?action=connexion">Sign in</a>
+        <a class="btn bg-orange ms-3 text-white btn-bg-orange" href="index.php?action=inscription">Sign up</a>
+      <?php } else if ($authorization['role_id'] == 1) { ?>
+
+        <a class="btn btn-orange-outline" href="index.php?action=adminSpace">Espace Administration</a>
+      <?php } else { ?>
+
+        <a class="btn btn-orange-outline" href="index.php?action=mySpace">Espace Membre</a>
+      <?php } ?>
+    </ul>
   </div>
 </nav>
+<header class="py-3 mb-4 bg-secondaire-main border-main-orange">
+  <div class="container d-flex flex-wrap justify-content-center align-items-center">
+    <a href="/" class="d-flex align-items-center mb-lg-0 me-lg-auto text-white text-decoration-none">
+      <span class="fs-1 ">E - COM</span>
+    </a>
+    <form class="col-6 mb-lg-0">
+      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    </form>
+  </div>
+</header>

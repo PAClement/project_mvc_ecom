@@ -8,7 +8,7 @@
 
     <h1 class="mb-5">Admin account</h1>
 
-    <h4>Cher admin voici vos informations</h4>
+    <h4>Cher admin voici tes informations</h4>
     <ul class="list-group mb-5">
         <li class="list-group-item"><strong>Votre mail : </strong><?= $infoAdmin['mail'] ?></li>
         <li class="list-group-item"><strong>Votre password : </strong><?= $infoAdmin['password'] ?></li>
@@ -19,7 +19,6 @@
         <div class="card-header">DANGER ZONE</div>
         <div class="card-body">
             <h5 class="card-title mb-5">
-
                 <a class="btn btn-danger mb-1" href="index.php?action=deconnect">Se deconnecter</a>
             </h5>
             <p class="card-text">

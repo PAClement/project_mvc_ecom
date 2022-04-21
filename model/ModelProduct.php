@@ -26,6 +26,79 @@ class ModelProduct
     }
 
 
+    public function getCategorie($categorie = null)
+    {
+        $idcon = connexion();
+
+        if ($categorie) {
+            $requete = $idcon->prepare("
+            SELECT * FROM `category` WHERE nom = ?
+        ");
+            $requete->execute(array($categorie));
+
+            return $requete->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function addCategorie($newCategorie)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        INSERT INTO `category`(`id`, `nom`) VALUES (null,?)");
+
+        return $requete->execute(array($newCategorie));
+    }
+
+    public function getMarque($marque = null)
+    {
+        $idcon = connexion();
+
+        if ($marque) {
+            $requete = $idcon->prepare("
+            SELECT * FROM `marque` WHERE nom = ?
+        ");
+            $requete->execute(array($marque));
+
+            return $requete->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function addMarque($newMarque)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        INSERT INTO `marque`(`id`, `nom`, `logo`) VALUES (null,?,null)
+        ");
+
+        return $requete->execute(array($newMarque));
+    }
+
+    public function getTransporteur($transporteur = null)
+    {
+        $idcon = connexion();
+
+        if ($transporteur) {
+            $requete = $idcon->prepare("
+            SELECT * FROM `transporteur` WHERE nom = ?
+        ");
+            $requete->execute(array($transporteur));
+
+            return $requete->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function addTransporteur($newTransporteur)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        INSERT INTO `transporteur`(`id`, `nom`, `logo`) VALUES (null,?,null)
+        ");
+
+        return $requete->execute(array($newTransporteur));
+    }
 
 
     /**

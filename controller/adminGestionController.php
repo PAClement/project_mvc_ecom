@@ -47,9 +47,23 @@ class adminGestionController
   public static function userDisplay()
   {
 
-    $conn = new ModelAdmin();
-    $tab = $conn->getAllUser();
+    if (isset($_SESSION['user_id'])) {
 
-    require('../view/admin/adminGestion.php');
+      $conn = new ModelUser();
+      $infoAdmin = $conn->getUserById($_SESSION['user_id']);
+
+      if ($infoAdmin['role_id'] == 1) {
+
+        $conn = new ModelAdmin();
+        $tab = $conn->getAllUser();
+
+        require('../view/admin/adminGestion.php');
+      } else {
+
+        header('Location: index.php');
+      }
+    } else {
+      header('Location: index.php');
+    }
   }
 }

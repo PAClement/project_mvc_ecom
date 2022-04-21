@@ -25,7 +25,7 @@ class ModelAdmin
         $this->postal_code = $postal_code;
     }
 
-    function getAllUser()
+    public function getAllUser()
     {
 
         $idcon = connexion();

@@ -2,33 +2,27 @@
 
 ob_start(); ?>
 
-
-<div class="container my-5 col-6">
-  <h1 class="mb-3">Connexion</h1>
-  <form action="index.php?action=connexion" method="POST">
-    <div class="form-group">
-      <label for="exampleInputEmail1">Email address</label>
-      <input type="email" name="mail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+<div class="container col-3 d-flex flex-column gap-5 p-5 bg-main text-white">
+  <h1 class="text-center">E - COM</h1>
+  <form action="index.php?action=connexion" class="my-5" method="POST">
+    <h2 class="mb-3">Connexion</h2>
+    <div class="form-group mb-3">
+      <label for="email">Email address</label>
+      <input type="email" name="mail" class="form-control" id="email" aria-describedby="emailHelp">
     </div>
     <div class="form-group">
-      <label for="exampleInputPassword1">Password</label>
-      <input type="password" name="password" class="form-control" id="exampleInputPassword1">
+      <label for="password">Password</label>
+      <input type="password" name="password" class="form-control" id="password">
     </div>
     <!-- <a href="index.php?action=forgetPassword">Mot de passe oublié ?</a><br> -->
-    <button type="submit" name="connexion" class="btn btn-primary mt-5">Se connecter</button>
+    <button type="submit" name="connexion" class="btn bg-orange btn-bg-orange text-white mt-5"><i class='bx bxs-user-account'></i> Se connecter</button>
   </form>
-  <?php
-  if ($error) {
-  ?>
-    <h3 class="text-danger"><?= $error ?></h3>
-  <?php
-  }
-  ?>
+  <?php if ($error) { ?>
+    <h4 class="text-danger"><?= $error ?></h4>
+  <?php } ?>
 
-  <h3>Pas de compte ? <a href="index.php?action=inscription"> Vous inscire</a> !</h3>
-
-
-  <a href="index.php" class="btn btn-warning"><i class='bx bx-search-alt'></i> Découvrir le site</a>
+  <h4>Pas de compte ? <a class="link-info" href="index.php?action=inscription"> Vous inscire</a> !</h4>
+  <a href="index.php" class="btn bg-orange btn-bg-orange text-white"><i class='bx bx-search-alt'></i> Découvrir le site</a>
 </div>
 
 
