@@ -21,7 +21,7 @@ try {
 
     switch ($_GET['action']) {
 
-      case (($_GET['action'] == "connexion") || ($_GET['action'] == "inscription") || ($_GET['action'] == "deconnect")):
+      case (($_GET['action'] == "connexion") || ($_GET['action'] == "inscription") || ($_GET['action'] == "deconnect") || ($_GET['action'] == 'forgetPassword')):
 
         if ($_GET['action'] == 'connexion') {
 
@@ -32,6 +32,18 @@ try {
         } else if ($_GET['action'] == 'deconnect') {
 
           authController::deconnect();
+        } else if ($_GET['action'] == 'forgetPassword') {
+
+          if (isset($_POST['getToken'])) {
+
+            authController::forgetPassword($_POST, null);
+          } else if (isset($_POST['resetPassword'])) {
+
+            authController::forgetPassword(null, $_POST);
+          } else {
+
+            authController::userConnect();
+          }
         }
         break;
 
@@ -70,6 +82,12 @@ try {
             } else if (isset($_POST['addtransporteur'])) {
 
               productController::addTransporteur($_POST);
+            } else if (isset($_POST['addProduit'])) {
+
+              productController::addProduit($_POST);
+            } else {
+
+              productController::productPage();
             }
           } else {
 

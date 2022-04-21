@@ -2,56 +2,32 @@
 
 ob_start(); ?>
 
-<div class="container my-5">
-    <h6>
-        <- <a href="index.php?action=connexion">Vers la connexion</a>
-    </h6>
-    <h3>Mot de passe oublié</h3>
+<div class="container col-3 d-flex flex-column gap-5 p-5 bg-main text-white">
+    <h1 class="text-center">E - COM</h1>
+    <form action="index.php?action=forgetPassword" class="my-5" method="POST">
+        <h4 class="mb-5">Changer mon mot de passe</h4>
 
-    <form action="index.php?action=forgetPassword" method="POST">
+        <h6 class="text-danger">Votre token : <?= $token ?></h6>
+
+        <input type="email" value="<?= $email ?>" name="mail" class="form-control d-none" id="email" aria-describedby="emailHelp">
+
+        <div class="form-group my-3">
+            <label for="token">Your Token</label>
+            <input type="text" name="token" class="form-control" id="token" aria-describedby="tokenHelp">
+        </div>
         <div class="form-group">
-            <label for="exampleInputEmail1">Quelle est votre email ?</label>
-            <input type="email" name="mail" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <button type="submit" name="forgetMDPemail" class="btn btn-primary mt-5">Send "email" </button>
+            <label for="newPassword">New Password</label>
+            <input type="password" name="newPassword" class="form-control" id="newPassword">
         </div>
-        <?php if ($forgetError) { ?>
-            <h4 class="text-danger"><?= $forgetError ?></h4>
-        <?php } ?>
+        <button type="submit" name="resetPassword" class="btn bg-orange btn-bg-orange text-white mt-5">Changer mot de passe</button>
     </form>
-
-    <?php if ($token) { ?>
-        <p>Voici votre nouveau token : <?= $token ?></p>
+    <?php if ($errorForgotPassword) { ?>
+        <h5 class="text-danger"><?= $errorForgotPassword ?></h5>
     <?php } ?>
 
-    <?php if ($formNewPassword) { ?>
-        <div class="row">
-            <div class="col-6">
-                <form action="index.php?action=forgetPassword" method="POST">
-                    <div class="form-group">
-                        <label for="token">Enter your token</label>
-                        <input type="text" name="token" class="form-control" id="token" aria-describedby="token">
-                    </div>
-                    <div class="form-group">
-                        <label for="changePassword">Password</label>
-                        <input type="password" name="changePassword" class="form-control" id="changePassword">
-                    </div>
-                    <button type="submit" name="newPassword" class="btn btn-primary mt-5">Change Password </button>
-                </form>
-                <?php if ($forgetError) { ?>
-                    <h4 class="text-danger"><?= $newError ?></h4>
-                <?php } ?>
-            </div>
-            <div class="col-6">
-                <div class="d-flex flex-column align-items-center">
-                    <h2>Condition to respect</h2>
-                    <ul class="mt-1 list-group list-group-flush">
-                        <li class="list-group-item"><strong>Password :</strong> Must be at leat 8 characters , 1 special characters and lower / upper case characters good luck. </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    <?php } ?>
+    <h4><a class="link-info" href="index.php?action=connexion">
+            <- Retourner à la connexion</a>
+    </h4>
 </div>
 
 <?php $content = ob_get_clean(); ?>

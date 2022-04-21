@@ -145,16 +145,15 @@ class authController
     }
   }
 
-  //module if user forget password [NOT INCLUDE ON PROJECT NOW]
-  public static function forgetPassword($forgetData = null, $newPassword = null)
+  public static function forgetPassword($email = null, $password = null)
   {
 
     function passCheck(array $data): bool
     {
       $isOk = true;
-      if ($data['changePassword']) {
+      if ($data['newPassword']) {
 
-        if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,})$/", $data['changePassword']) == 1) {
+        if (!preg_match("/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[-+!*$@%_])([-+!*$@%_\w]{8,})$/", $data['newPassword']) == 1) {
           $isOk = false;
         }
       }
@@ -162,45 +161,48 @@ class authController
       return $isOk;
     }
 
-    if ($forgetData) {
+    $conn = new ModelUser();
 
-      $sign = new ModelUser();
-      if ($sign->getUser($forgetData['mail'])) {
+    if ($email) {
 
-        $yourToken = $sign->tokenVerif(null, $forgetData['mail']);
+      $user = $conn->getUser($email['mail']);
+      if ($user) {
 
-        $token = $yourToken['token'];
-        $forgetError = "";
-        $formNewPassword = true;
+        $email = $user['mail'];
+        $token = $user['token'];
         require('../view/auth/forgetPassword.php');
       } else {
 
-        $token = "";
-        $formNewPassword = false;
-        $forgetError = $forgetData['mail'] . " n'est pas enregistrer dans notre base de données";
-        require('../view/auth/forgetPassword.php');
+        ViewTemplate::response("danger", $email['mail'] . " n'existe pas !", "index.php?action=connexion");
       }
-    } else if ($newPassword) {
+    } else if ($password) {
+      $user = $conn->getUser($password['mail']);
 
-      if (passCheck($newPassword)) {
+      if (passCheck($password)) {
 
-        var_dump($newPassword);
-        $newPassword['changePassword'] = password_hash($newPassword['changePassword'], PASSWORD_DEFAULT);
-        var_dump($newPassword);
+        $password['newPassword'] = htmlspecialchars($password['newPassword']);
+        $token = htmlspecialchars($token);
+
+        do {
+          $token = mt_rand();
+        } while ($token == $conn->tokenVerif($token, null));
+
+        $newPass = password_hash($password['newPassword'], PASSWORD_DEFAULT);
+
+        if ($conn->passUpdate($newPass, $password['mail'], $token)) {
+
+          ViewTemplate::response("success", "Votre nouveau mot de passe à bien été modifié", "index.php?action=connexion");
+        } else {
+
+          ViewTemplate::response("danger", "Un problème est survenue", "index.php?action=connexion");
+        }
       } else {
 
-        $newError = "Votre nouveau mot de passe n'est pas conforme";
-        $forgetError = "";
-        $token = $yourToken['token'];
-        $formNewPassword = true;
+        $email = $user['mail'];
+        $token = $user['token'];
+        $errorForgotPassword = 'Le mot de passe n\'est pas conforme';
         require('../view/auth/forgetPassword.php');
       }
-    } else {
-
-      $token = "";
-      $forgetError = "";
-      $formNewPassword = false;
-      require('../view/auth/forgetPassword.php');
     }
   }
 }

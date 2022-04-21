@@ -117,6 +117,16 @@ class ModelUser
         return $requete->execute(array($editData['nom'], $editData['prenom'], $editData['address'], $editData['tel'], $id));
     }
 
+    public function passUpdate($newPass, $mail, $token)
+    {
+        $idcon = connexion();
+        $requete = $idcon->prepare("
+        UPDATE `users` SET `password`= ?, `token`= ?  WHERE mail = ? 
+        ");
+
+        return $requete->execute(array($newPass, $token, $mail));
+    }
+
     /*
   
   GETTERS ET SETTERS

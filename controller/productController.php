@@ -104,4 +104,9 @@ class productController
       require('../view/admin/adminProducts.php');
     }
   }
+
+  public static function addProduit($produitData)
+  {
+    var_dump($produitData);
+  }
 }

@@ -45,7 +45,23 @@ include('../view/includes/header.php'); ?>
 ===============================-->
         <div class="tab-pane fade py-5 ps-5 <?= $show == 'product' ? "active show" : "" ?>" id="faq_tab_1" role="tabpanel" aria-labelledby="faq_tab_1-tab">
 
-          <h1>PRODUCT MODIF</h1>
+          <h3 class="mb-5">Ajouter un produit :</h3>
+
+          <form action="index.php?action=adminProducts" method="POST">
+            <div class="row">
+              <div class="col-8">
+                <div class="form-group">
+                  <input type="text" name="nom_produit" placeholder="Nom du produit" class="form-control" id="nom_produit" aria-describedby="nom_produitHelp">
+                </div>
+              </div>
+              <div class="col-4">
+                <button type="submit" name="addProduit" class="btn bg-orange btn-bg-orange text-white">Ajouter produit</button>
+              </div>
+            </div>
+            <h5 class="text-danger mt-3"><?= $errorAddProduit ?></h5>
+          </form>
+
+          <h3 class="my-5">Liste des produits :</h3>
         </div>
 
         <!--========================
