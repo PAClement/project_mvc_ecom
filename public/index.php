@@ -85,12 +85,22 @@ try {
             } else if (isset($_POST['addProduit'])) {
 
               productController::addProduit($_POST);
+            } else if (isset($_POST['editElement'])) {
+
+              productController::elementEdit($_POST);
+            }
+          }
+
+          if (isset($_GET['element'])) {
+
+            if (($_GET['element'] == 'category') || ($_GET['element'] == 'marque') || ($_GET['element'] == 'transporteur')) {
+
+              productController::elementSuppr($_GET['element'], $_GET['id']);
             } else {
 
               productController::productPage();
             }
           } else {
-
             productController::productPage();
           }
         }

@@ -1,6 +1,8 @@
 <?php
 require_once "ConnexionBdd.php";
 
+//$requete->debugDumpParams();
+
 
 class ModelProduct
 {
@@ -26,6 +28,48 @@ class ModelProduct
     }
 
 
+    //============================== Model for product ============================================
+
+    public function getProduit($ref_produit = null)
+    {
+        $idcon = connexion();
+
+        if ($ref_produit) {
+            $requete = $idcon->prepare("
+            SELECT * FROM `product` WHERE ref = ?
+        ");
+            $requete->execute(array($ref_produit));
+
+            return $requete->fetch(PDO::FETCH_ASSOC);
+        }
+    }
+
+    public function addProduit($newProduct)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        INSERT INTO `product`(`id`, `nom`, `ref`, `description`, `quantite`, `prix`, `photo`, `id_category`, `id_marque`) VALUES ( NULL, ?, ?, ?, ?, ?, NULL, (SELECT id FROM category WHERE nom = ?), (SELECT id FROM marque WHERE nom = ?))
+        ");
+
+        return $requete->execute(array($newProduct['nom_produit'], $newProduct['ref_produit'], $newProduct['description_produit'], $newProduct['quantite_produit'], $newProduct['prix_produit'], $newProduct['categorie_produit'], $newProduct['marque_produit']));
+    }
+
+    //verifier si un produit contient la catégorie ou la marque que la personne veut supprimer
+    public function supprElementProduit($action, $id)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+            SELECT * FROM `product` WHERE id_" . $action . " = ?
+        ");
+        $requete->execute(array($id));
+
+        return $requete->fetchall(PDO::FETCH_ASSOC);
+    }
+
+    //============================== Model for category ============================================
+
     public function getCategorie($categorie = null)
     {
         $idcon = connexion();
@@ -34,9 +78,16 @@ class ModelProduct
             $requete = $idcon->prepare("
             SELECT * FROM `category` WHERE nom = ?
         ");
-            $requete->execute(array($categorie));
 
+            $requete->execute(array($categorie));
             return $requete->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $requete = $idcon->prepare("
+            SELECT * FROM `category`
+        ");
+
+            $requete->execute();
+            return $requete->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
@@ -50,6 +101,8 @@ class ModelProduct
         return $requete->execute(array($newCategorie));
     }
 
+    //============================== Model for marque ============================================
+
     public function getMarque($marque = null)
     {
         $idcon = connexion();
@@ -58,9 +111,17 @@ class ModelProduct
             $requete = $idcon->prepare("
             SELECT * FROM `marque` WHERE nom = ?
         ");
-            $requete->execute(array($marque));
 
+            $requete->execute(array($marque));
             return $requete->fetch(PDO::FETCH_ASSOC);
+        } else {
+
+            $requete = $idcon->prepare("
+            SELECT * FROM `marque`
+        ");
+
+            $requete->execute();
+            return $requete->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
@@ -75,6 +136,9 @@ class ModelProduct
         return $requete->execute(array($newMarque));
     }
 
+    //============================== Model for transporteur ============================================
+
+
     public function getTransporteur($transporteur = null)
     {
         $idcon = connexion();
@@ -83,9 +147,17 @@ class ModelProduct
             $requete = $idcon->prepare("
             SELECT * FROM `transporteur` WHERE nom = ?
         ");
-            $requete->execute(array($transporteur));
 
+            $requete->execute(array($transporteur));
             return $requete->fetch(PDO::FETCH_ASSOC);
+        } else {
+
+            $requete = $idcon->prepare("
+            SELECT * FROM `transporteur`
+        ");
+
+            $requete->execute();
+            return $requete->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
@@ -100,6 +172,29 @@ class ModelProduct
         return $requete->execute(array($newTransporteur));
     }
 
+    //============================== Model suppression & edition ============================================
+
+    public function utilsSuppr($element, $id)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        DELETE FROM `" . $element . "` WHERE id = ?
+        ");
+
+        return $requete->execute(array($id));
+    }
+
+    public function utilsEdit($table, $ediData, $editId)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        UPDATE `" . $table . "` SET `nom`= ? WHERE id = ?
+        ");
+
+        return $requete->execute(array($ediData, $editId));
+    }
 
     /**
      * Get the value of id

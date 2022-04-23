@@ -7,8 +7,13 @@ class productController
 
   public static function productPage()
   {
+    $conn = new ModelProduct();
 
-    $show = "product";
+    $getCategory = $conn->getCategorie();
+    $getMarque = $conn->getMarque();
+    $getTransporteur = $conn->getTransporteur();
+
+
     require('../view/admin/adminProducts.php');
   }
 
@@ -18,6 +23,8 @@ class productController
 
       $conn = new ModelProduct();
 
+      $categorieData['categorie'] = htmlspecialchars($categorieData['categorie']);
+
       if (!$conn->getCategorie($categorieData['categorie'])) {
 
         if ($conn->addCategorie($categorieData['categorie'])) {
@@ -25,21 +32,15 @@ class productController
           ViewTemplate::response("success", "La categorie " . $categorieData['categorie'] . " à été ajouté avec succées !", "index.php?action=adminProducts");
         } else {
 
-          $show = "category";
-          $errorAddCategorie = "Impossible pour le moment";
-          require('../view/admin/adminProducts.php');
+          ViewTemplate::response("danger", "Un problème est survenue !", "index.php?action=adminProducts");
         }
       } else {
 
-        $show = "category";
-        $errorAddCategorie = "Cette categorie existe déjà !";
-        require('../view/admin/adminProducts.php');
+        ViewTemplate::response("danger", "Cette catégorie existe déja !", "index.php?action=adminProducts");
       }
     } else {
 
-      $show = "category";
-      $errorAddCategorie = "Aucune categorie trouvée";
-      require('../view/admin/adminProducts.php');
+      ViewTemplate::response("danger", "Aucune catégorie trouvée !", "index.php?action=adminProducts");
     }
   }
 
@@ -49,6 +50,8 @@ class productController
 
       $conn = new ModelProduct();
 
+      $marqueData['marque'] = htmlspecialchars($marqueData['marque']);
+
       if (!$conn->getMarque($marqueData['marque'])) {
 
         if ($conn->addMarque($marqueData['marque'])) {
@@ -56,21 +59,15 @@ class productController
           ViewTemplate::response("success", "La marque " . $marqueData['marque'] . " à été ajouté avec succées !", "index.php?action=adminProducts");
         } else {
 
-          $show = "marque";
-          $errorAddMarque = "Impossible pour le moment";
-          require('../view/admin/adminProducts.php');
+          ViewTemplate::response("danger", "Une erreur est survenue!", "index.php?action=adminProducts");
         }
       } else {
 
-        $show = "marque";
-        $errorAddMarque = "Cette marque existe déjà !";
-        require('../view/admin/adminProducts.php');
+        ViewTemplate::response("danger", "Cette marque existe déja !", "index.php?action=adminProducts");
       }
     } else {
 
-      $show = "marque";
-      $errorAddMarque = "Aucune marque trouvée";
-      require('../view/admin/adminProducts.php');
+      ViewTemplate::response("danger", "Aucune marque trouvée !", "index.php?action=adminProducts");
     }
   }
 
@@ -80,6 +77,8 @@ class productController
 
       $conn = new ModelProduct();
 
+      $transporteurData['transporteur'] = htmlspecialchars($transporteurData['transporteur']);
+
       if (!$conn->getTransporteur($transporteurData['transporteur'])) {
 
         if ($conn->addTransporteur($transporteurData['transporteur'])) {
@@ -87,26 +86,92 @@ class productController
           ViewTemplate::response("success", "Le transporteur " . $transporteurData['transporteur'] . " à été ajouté avec succés !", "index.php?action=adminProducts");
         } else {
 
-          $show = "transporteur";
-          $errorAddTransporteur = "Impossible pour le moment";
-          require('../view/admin/adminProducts.php');
+          ViewTemplate::response("danger", "Une erreur est survenue !", "index.php?action=adminProducts");
         }
       } else {
 
-        $show = "transporteur";
-        $errorAddTransporteur = "Ce transporteur existe déjà !";
-        require('../view/admin/adminProducts.php');
+        ViewTemplate::response("danger", "Ce transporteur existe déjà !", "index.php?action=adminProducts");
       }
     } else {
 
-      $show = "transporteur";
-      $errorAddTransporteur = "Aucun transporteur trouvé";
-      require('../view/admin/adminProducts.php');
+      ViewTemplate::response("danger", "Aucun transporteur trouvé !", "index.php?action=adminProducts");
     }
   }
 
   public static function addProduit($produitData)
   {
-    var_dump($produitData);
+    if ($produitData['nom_produit'] && $produitData['prix_produit']) {
+
+      $produitData = array_map(function ($a) {
+        return htmlspecialchars($a);
+      }, $produitData);
+
+      $conn = new ModelProduct();
+
+      if (!$conn->getProduit($produitData['ref_produit'])) {
+
+        $produitData['quantite_produit'] = (int) $produitData['quantite_produit'];
+        $produitData['prix_produit'] = floatval($produitData['prix_produit']);
+
+        if ($conn->addProduit($produitData)) {
+
+          ViewTemplate::response("success", $produitData['nom_produit'] . " à été ajouté avec succés !", "index.php?action=adminProducts");
+        } else {
+
+          ViewTemplate::response("danger", "Une erreur est survenue !", "index.php?action=adminProducts");
+        }
+      } else {
+
+        ViewTemplate::response("danger", "Ce produit existe déjà!", "index.php?action=adminProducts");
+      }
+    }
+  }
+
+  public static function elementSuppr($action, $id)
+  {
+
+    $conn = new ModelProduct();
+    $id = (int) $id;
+
+    if ($action != 'transporteur') {
+      if (!$conn->supprElementProduit($action, $id)) {
+        if ($conn->utilsSuppr($action, $id)) {
+
+          ViewTemplate::response("success", $action . " supprimer avec succés !", "index.php?action=adminProducts");
+        } else {
+          ViewTemplate::response("danger", "Impossible de supprimer une " . $action . " pour le moment !", "index.php?action=adminProducts");
+        }
+      } else {
+
+        ViewTemplate::response("danger", "Impossible de supprimer cette " . $action . ", 1 ou plusieurs produits utilisent cette " . $action . "  !", "index.php?action=adminProducts");
+      }
+    } else {
+      if ($conn->utilsSuppr($action, $id)) {
+
+        ViewTemplate::response("success", $action . " supprimer avec succés !", "index.php?action=adminProducts");
+      } else {
+
+        ViewTemplate::response("danger", "Impossible de supprimer un " . $action . " pour le moment !", "index.php?action=adminProducts");
+      }
+    }
+  }
+
+  public static function elementEdit($editData)
+  {
+    if ($editData['element']) {
+
+      $conn = new ModelProduct();
+
+      if ($conn->utilsEdit($editData['utils'], $editData['element'], $editData['id'])) {
+
+        ViewTemplate::response("success", "Edition Réussie !", "index.php?action=adminProducts");
+      } else {
+
+        ViewTemplate::response("danger", "Il faut au moins 1 valeur !", "index.php?action=adminProducts");
+      }
+    } else {
+
+      ViewTemplate::response("danger", "Il faut au moins 1 valeur !", "index.php?action=adminProducts");
+    }
   }
 }
