@@ -9,6 +9,7 @@ class productController
   {
     $conn = new ModelProduct();
 
+    $getProduit = $conn->getProduit();
     $getCategory = $conn->getCategorie();
     $getMarque = $conn->getMarque();
     $getTransporteur = $conn->getTransporteur();
@@ -134,16 +135,25 @@ class productController
     $id = (int) $id;
 
     if ($action != 'transporteur') {
-      if (!$conn->supprElementProduit($action, $id)) {
+      if ($action != 'product') {
+        if (!$conn->supprElementProduit($action, $id)) {
+          if ($conn->utilsSuppr($action, $id)) {
+
+            ViewTemplate::response("success", $action . " supprimer avec succés !", "index.php?action=adminProducts");
+          } else {
+            ViewTemplate::response("danger", "Impossible de supprimer une " . $action . " pour le moment !", "index.php?action=adminProducts");
+          }
+        } else {
+
+          ViewTemplate::response("danger", "Impossible de supprimer cette " . $action . ", 1 ou plusieurs produits utilisent cette " . $action . "  !", "index.php?action=adminProducts");
+        }
+      } else {
         if ($conn->utilsSuppr($action, $id)) {
 
           ViewTemplate::response("success", $action . " supprimer avec succés !", "index.php?action=adminProducts");
         } else {
           ViewTemplate::response("danger", "Impossible de supprimer une " . $action . " pour le moment !", "index.php?action=adminProducts");
         }
-      } else {
-
-        ViewTemplate::response("danger", "Impossible de supprimer cette " . $action . ", 1 ou plusieurs produits utilisent cette " . $action . "  !", "index.php?action=adminProducts");
       }
     } else {
       if ($conn->utilsSuppr($action, $id)) {
@@ -158,20 +168,39 @@ class productController
 
   public static function elementEdit($editData)
   {
-    if ($editData['element']) {
 
-      $conn = new ModelProduct();
+    $editData = array_map(function ($a) {
+      return htmlspecialchars($a);
+    }, $editData);
 
-      if ($conn->utilsEdit($editData['utils'], $editData['element'], $editData['id'])) {
+    if ($editData['form_produit'] != 'product') {
 
-        ViewTemplate::response("success", "Edition Réussie !", "index.php?action=adminProducts");
+      if ($editData['element']) {
+
+        $conn = new ModelProduct();
+
+        if ($conn->utilsEdit($editData['utils'], $editData['element'], $editData['id'])) {
+
+          ViewTemplate::response("success", "Edition Réussie !", "index.php?action=adminProducts");
+        } else {
+
+          ViewTemplate::response("danger", "Un problème est survenue !", "index.php?action=adminProducts");
+        }
       } else {
 
         ViewTemplate::response("danger", "Il faut au moins 1 valeur !", "index.php?action=adminProducts");
       }
     } else {
 
-      ViewTemplate::response("danger", "Il faut au moins 1 valeur !", "index.php?action=adminProducts");
+      $conn = new ModelProduct();
+
+      if ($conn->editProduit($editData)) {
+
+        ViewTemplate::response("success", "Edition Réussie !", "index.php?action=adminProducts");
+      } else {
+
+        ViewTemplate::response("danger", "Un problème est survenue !", "index.php?action=adminProducts");
+      }
     }
   }
 }

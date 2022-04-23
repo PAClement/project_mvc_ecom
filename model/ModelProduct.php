@@ -41,6 +41,26 @@ class ModelProduct
             $requete->execute(array($ref_produit));
 
             return $requete->fetch(PDO::FETCH_ASSOC);
+        } else {
+
+            $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+        ");
+            $requete->execute();
+
+            return $requete->fetchAll(PDO::FETCH_ASSOC);
         }
     }
 
@@ -53,6 +73,17 @@ class ModelProduct
         ");
 
         return $requete->execute(array($newProduct['nom_produit'], $newProduct['ref_produit'], $newProduct['description_produit'], $newProduct['quantite_produit'], $newProduct['prix_produit'], $newProduct['categorie_produit'], $newProduct['marque_produit']));
+    }
+
+    public function editProduit($editProduit)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        UPDATE `product` SET `nom`= ?,`ref`= ?,`description`= ?,`quantite`= ?,`prix`= ?,`id_category`= (SELECT id FROM category WHERE nom = ?),`id_marque`= (SELECT id FROM marque WHERE nom = ?) WHERE id = ?
+        ");
+
+        return $requete->execute(array($editProduit['nom_produit'], $editProduit['ref_produit'], $editProduit['description_produit'], $editProduit['quantite_produit'], $editProduit['prix_produit'], $editProduit['categorie_produit'], $editProduit['marque_produit'], $editProduit['id_produit']));
     }
 
     //verifier si un produit contient la catégorie ou la marque que la personne veut supprimer
@@ -192,7 +223,6 @@ class ModelProduct
         $requete = $idcon->prepare("
         UPDATE `" . $table . "` SET `nom`= ? WHERE id = ?
         ");
-
         return $requete->execute(array($ediData, $editId));
     }
 

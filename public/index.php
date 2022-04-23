@@ -93,7 +93,7 @@ try {
 
           if (isset($_GET['element'])) {
 
-            if (($_GET['element'] == 'category') || ($_GET['element'] == 'marque') || ($_GET['element'] == 'transporteur')) {
+            if (($_GET['element'] == 'product') || ($_GET['element'] == 'category') || ($_GET['element'] == 'marque') || ($_GET['element'] == 'transporteur')) {
 
               productController::elementSuppr($_GET['element'], $_GET['id']);
             } else {
