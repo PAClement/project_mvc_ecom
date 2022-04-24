@@ -100,7 +100,11 @@ try {
 
               productController::productPage();
             }
+          } else if (isset($_GET['page'])) {
+
+            productController::productPage($_GET['page']);
           } else {
+
             productController::productPage();
           }
         }

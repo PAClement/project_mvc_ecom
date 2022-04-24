@@ -5,15 +5,27 @@ require_once('../model/ModelProduct.php');
 class productController
 {
 
-  public static function productPage()
+  public static function productPage($page = null)
   {
     $conn = new ModelProduct();
 
-    $getProduit = $conn->getProduit();
     $getCategory = $conn->getCategorie();
     $getMarque = $conn->getMarque();
     $getTransporteur = $conn->getTransporteur();
 
+
+    // AFFICHAGE ET PAGINATION DES PRODUITS
+    $limit = 3;
+    $page = isset($page) ? $page : 1;
+    $start = ($page - 1) * $limit;
+    $getProduit = $conn->getAllProduit($start, $limit);
+
+    $productCount = $conn->getNumberProduct();
+    $total = $productCount["count(id)"];
+    $pages = ceil($total / $limit);
+
+    $previous = $page != 1 ? $page - 1 : 1;
+    $next = $page >= $pages ? $pages : $page + 1;
 
     require('../view/admin/adminProducts.php');
   }

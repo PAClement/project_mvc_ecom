@@ -55,7 +55,15 @@
   </form>
 
   <h3 class="my-5">Liste des produits :</h3>
-
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      <li class="page-item"><a class="page-link" href="index.php?action=adminProducts&page=<?= $previous; ?>">Previous</a></li>
+      <?php for ($i = 1; $i <= $pages; $i++) : ?>
+        <li class="page-item"><a class="page-link" href="index.php?action=adminProducts&page=<?= $i; ?>"><?= $i; ?></a></li>
+      <?php endfor; ?>
+      <li class="page-item"><a class="page-link" href="index.php?action=adminProducts&page=<?= $next; ?>">Next</a></li>
+    </ul>
+  </nav>
   <table class="table">
     <thead>
       <tr>

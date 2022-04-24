@@ -41,9 +41,27 @@ class ModelProduct
             $requete->execute(array($ref_produit));
 
             return $requete->fetch(PDO::FETCH_ASSOC);
-        } else {
+        }
+    }
 
-            $requete = $idcon->prepare("
+    public function getNumberProduct()
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
+        SELECT count(id) FROM product
+        ");
+
+        $requete->execute();
+
+        return $requete->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function getAllProduit($start = 0, $limit = 3)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
             SELECT
                 p.id,
                 p.nom,
@@ -57,11 +75,11 @@ class ModelProduct
                 `product` p
             INNER JOIN category c ON id_category = c.id
             INNER JOIN marque m ON id_marque = m.id
+            LIMIT " . $start . ", " . $limit . "
         ");
-            $requete->execute();
+        $requete->execute();
 
-            return $requete->fetchAll(PDO::FETCH_ASSOC);
-        }
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function addProduit($newProduct)
