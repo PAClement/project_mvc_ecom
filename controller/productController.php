@@ -22,8 +22,8 @@ class productController
 
     $productCount = $conn->getNumberProduct();
     $total = $productCount["count(id)"];
-    $pages = ceil($total / $limit);
 
+    $pages = ceil($total / $limit);
     $previous = $page != 1 ? $page - 1 : 1;
     $next = $page >= $pages ? $pages : $page + 1;
 
