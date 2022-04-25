@@ -6,7 +6,7 @@
 
 <div class="container my-5 pb-5">
 
-    <h1 class="mb-5">Espace membre</h1>
+    <?php ViewTemplate::returnBtn("mySpace", "Espace membre", "MON COMPTE :") ?>
 
     <div class="row">
         <div class="col-6">

@@ -30,7 +30,7 @@ class ModelProduct
 
     //============================== Model for product ============================================
 
-    public function getProduit($ref_produit = null)
+    public function getProduit($ref_produit = null, $id = null)
     {
         $idcon = connexion();
 
@@ -41,7 +41,57 @@ class ModelProduct
             $requete->execute(array($ref_produit));
 
             return $requete->fetch(PDO::FETCH_ASSOC);
+        } else {
+            $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+
+            WHERE p.id = ?
+            ");
+
+            $requete->execute(array($id));
+
+            return $requete->fetch(PDO::FETCH_ASSOC);
         }
+    }
+
+    public function getCartProduct($cartData)
+    {
+        $idcon = connexion();
+        $requete = $idcon->prepare("
+        SELECT
+            p.id,
+            p.nom,
+            p.ref,
+            p.description,
+            p.quantite,
+            p.prix,
+            c.nom as nom_category,
+            m.nom as nom_marque
+        FROM
+            `product` p
+        INNER JOIN category c ON id_category = c.id
+        INNER JOIN marque m ON id_marque = m.id
+
+        WHERE p.id IN ()
+        ");
+
+        $requete->debugDumpParams();
+        $requete->execute(array());
+        $requete->debugDumpParams();
+        die();
+        return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
     public function getNumberProduct()
@@ -57,11 +107,12 @@ class ModelProduct
         return $requete->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function getAllProduit($start = 0, $limit = 3)
+    public function getAllProduit($start = null, $limit = null)
     {
         $idcon = connexion();
 
-        $requete = $idcon->prepare("
+        if ($start != null && $limit != null) {
+            $requete = $idcon->prepare("
             SELECT
                 p.id,
                 p.nom,
@@ -77,6 +128,24 @@ class ModelProduct
             INNER JOIN marque m ON id_marque = m.id
             LIMIT " . $start . ", " . $limit . "
         ");
+        } else {
+            $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+        ");
+        }
+
         $requete->execute();
 
         return $requete->fetchAll(PDO::FETCH_ASSOC);

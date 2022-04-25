@@ -31,7 +31,7 @@
           <th scope="row"><?= $getCategory[$i]['id'] ?></th>
           <td><?= $getCategory[$i]['nom'] ?></td>
           <?php if ($i != 0) { ?>
-            <td><button type="button" class="btn bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getCategory[$i]['id'] . "_Category" ?>">Modifier la categorie</button></td>
+            <td><button type="button" class="btn bg-orange btn-bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getCategory[$i]['id'] . "_Category" ?>">Modifier la categorie</button></td>
             <td><a href="index.php?action=adminProducts&element=category&id=<?= $getCategory[$i]['id'] ?>" class="btn bg-danger text-white">Supprimer la categorie</a></td>
 
             <div class="modal fade" id="editModal_<?= $getCategory[$i]['id'] . "_Category" ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

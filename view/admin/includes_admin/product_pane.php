@@ -78,7 +78,7 @@
         <tr>
           <th scope="row"><?= $getProduit[$i]['id'] ?></th>
           <td><?= $getProduit[$i]['nom'] ?></td>
-          <td><button type="button" class="btn bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getProduit[$i]['id'] . "_Produit" ?>">Modifier le produit</button></td>
+          <td><button type="button" class="btn bg-orange btn-bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getProduit[$i]['id'] . "_Produit" ?>">Modifier le produit</button></td>
           <td><a href="index.php?action=adminProducts&element=product&id=<?= $getProduit[$i]['id'] ?>" class="btn bg-danger text-white">Supprimer le produit</a></td>
 
           <div class="modal fade" id="editModal_<?= $getProduit[$i]['id'] . "_Produit" ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -16,6 +16,11 @@
   box-sizing: border-box;
 }
 
+::selection {
+  background-color: var(--main-bg-orange-color);
+  color: white;
+}
+
 body,
 .bg-white {
   background-color: var(--main-bg-white-color) !important;
@@ -36,6 +41,18 @@ body,
 
 .bg-secondaire-main {
   background-color: var(--main-bg-test1-color) !important;
+}
+
+/**
+  TAB LIST
+*/
+
+.tab-list .nav-link {
+  color: var(--main-bg-orange-color) !important;
+}
+
+.tab-list .nav-link.active {
+  color: var(--main-bg-color) !important;
 }
 
 /**
@@ -66,4 +83,48 @@ BORDER COLOR
 
 .p-color-orange {
   color: var(--main-bg-orange-color) !important;
+}
+
+
+/**
+frameAccount
+*/
+
+.frameUserGlobal a:hover {
+  color: var(--main-bg-color);
+}
+
+.frameAccount {
+  border-bottom: 2px solid rgba(0, 0, 0, 0);
+  color: var(--main-bg-test1-color);
+  transition: all 0.4s;
+}
+
+.frameAccount:hover {
+  border-bottom: 2px solid var(--main-bg-orange-color);
+  cursor: pointer;
+  transition: all 0.4s;
+
+}
+
+.frameAccount:hover .frameIcon {
+
+  color: var(--main-bg-orange-color);
+}
+
+
+/*----------------------------------------------------*/
+
+.productViewImageFrame {
+  height: 500px;
+  width: 400px;
+}
+
+.productViewImage {
+  max-width: 100%;
+  max-height: 100%;
+  margin-left: auto;
+  display: block;
+  border: 1px solid gray;
+
 }

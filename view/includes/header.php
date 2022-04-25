@@ -22,9 +22,11 @@ if (isset($_SESSION['user_id'])) {
         <a class="btn bg-orange ms-3 text-white btn-bg-orange" href="index.php?action=inscription">Sign up</a>
       <?php } else if ($authorization['role_id'] == 1) { ?>
 
+        <a class="btn bg-orange text-white btn-bg-orange me-3" href="index.php?action=myCart"><i class='bx bx-cart fs-4'></i></a> <!-- <=== Temporaire -->
         <a class="btn btn-orange-outline" href="index.php?action=adminSpace">Espace Administration</a>
       <?php } else { ?>
 
+        <a class="btn bg-orange text-white btn-bg-orange me-3" href=""><i class='bx bx-cart fs-4'></i></a>
         <a class="btn btn-orange-outline" href="index.php?action=mySpace">Espace Membre</a>
       <?php } ?>
     </ul>

@@ -6,9 +6,9 @@
 
 <div class="container my-5 pb-5">
 
-  <h1>membre.php</h1>
-
-  <a href="index.php?action=myAccount">My account</a>
+  <div class="d-flex justify-content-around frameUserGlobal">
+    <?php ViewTemplate::frameAccount("myAccount", "bx-user", "Votre compte")  ?>
+  </div>
 
 </div>
 

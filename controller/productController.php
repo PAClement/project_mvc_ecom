@@ -13,9 +13,8 @@ class productController
     $getMarque = $conn->getMarque();
     $getTransporteur = $conn->getTransporteur();
 
-
     // AFFICHAGE ET PAGINATION DES PRODUITS
-    $limit = 3;
+    $limit = 5;
     $page = isset($page) ? $page : 1;
     $start = ($page - 1) * $limit;
     $getProduit = $conn->getAllProduit($start, $limit);

@@ -22,7 +22,7 @@ class membreController
     //Page user Account: with modification suppresion & deconnection
     public static function myAccount($editData = null)
     {
-        function formCheck(array $data): bool
+        function formCheck(array $data)
         {
             $isOk = true;
             if ($data['tel']) {

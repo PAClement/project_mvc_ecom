@@ -5,35 +5,37 @@ ob_start();
 include('../view/includes/header.php'); ?>
 
 <div class="container mt-5">
-  <h2>PANEL DE GESTION </h2>
+
+  <?php ViewTemplate::returnBtn("adminSpace", "Espace admin", "GESTION PRODUITS :") ?>
+
   <div class="row d-flex justify-content-center my-5">
     <div class="col-md-12 bg-white">
       <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
+        <li class="nav-item tab-list" role="presentation">
           <button class="nav-link active show" id="faq_tab_1-tab" data-bs-toggle="tab" data-bs-target="#faq_tab_1" type="button" role="tab" aria-controls="faq_tab_1" aria-selected="true">
             <div class="d-flex flex-column lh-lg">
               <i class='bx bxl-dropbox fs-1'></i><span>Produits</span>
             </div>
           </button>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item tab-list" role="presentation">
           <button class="nav-link" id="faq_tab_2-tab" data-bs-toggle="tab" data-bs-target="#faq_tab_2" type="button" role="tab" aria-controls="faq_tab_2" aria-selected="false">
             <div class="d-flex flex-column lh-lg">
-              <i class='bx bxl-dropbox fs-1'></i><span>Catégories</span>
+              <i class='bx bx-category fs-1'></i><span>Catégories</span>
             </div>
           </button>
         </li>
-        <li class="nav-item " role="presentation">
+        <li class="nav-item tab-list" role="presentation">
           <button class="nav-link" id="faq_tab_3-tab" data-bs-toggle="tab" data-bs-target="#faq_tab_3" type="button" role="tab" aria-controls="faq_tab_3" aria-selected="false">
             <div class="d-flex flex-column lh-lg">
-              <i class='bx bxl-dropbox fs-1'></i><span>Marques</span>
+              <i class='bx bxs-bookmarks fs-1'></i><span>Marques</span>
             </div>
           </button>
         </li>
-        <li class="nav-item" role="presentation">
+        <li class="nav-item tab-list" role="presentation">
           <button class="nav-link" id="faq_tab_4-tab" data-bs-toggle="tab" data-bs-target="#faq_tab_4" type="button" role="tab" aria-controls="faq_tab_4" aria-selected="false">
             <div class="d-flex flex-column lh-lg">
-              <i class='bx bxl-dropbox fs-1'></i><span>Transporteurs</span>
+              <i class='bx bxs-truck fs-1'></i><span>Transporteurs</span>
             </div>
           </button>
         </li>

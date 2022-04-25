@@ -6,11 +6,11 @@
 
 <div class="container my-5 pb-5">
 
-    <h2>Espace adminsitration</h2>
-
-    <a class="" href="index.php?action=adminAccount">Admin Account</a>
-    <a class="" href="index.php?action=userGestion">Admin User gestion</a>
-    <a class="" href="index.php?action=adminProducts">Admin Products</a>
+    <div class="d-flex justify-content-around frameUserGlobal">
+        <?php ViewTemplate::frameAccount("adminAccount", "bx-user", "Votre compte")  ?>
+        <?php ViewTemplate::frameAccount("userGestion", "bxs-group", "Gestion utilisateur")  ?>
+        <?php ViewTemplate::frameAccount("adminProducts", "bxl-product-hunt", "Gestion produits et +")  ?>
+    </div>
 
 </div>
 

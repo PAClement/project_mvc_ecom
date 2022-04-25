@@ -6,7 +6,7 @@
 
 <div class="container my-5 pb-5">
 
-    <h1 class="mb-5">Admin account</h1>
+    <?php ViewTemplate::returnBtn("adminSpace", "Espace admin", "ADMIN ACCOUNT :") ?>
 
     <h4>Cher admin voici tes informations</h4>
     <ul class="list-group mb-5">

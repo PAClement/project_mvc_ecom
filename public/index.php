@@ -7,6 +7,9 @@ require_once('../controller/authController.php');
 require_once('../controller/adminGestionController.php');
 require_once('../controller/membreController.php');
 require_once('../controller/productController.php');
+require_once('../controller/cartController.php');
+
+require_once('../view/classes/addons.php');
 
 ?>
 
@@ -21,7 +24,10 @@ try {
 
     switch ($_GET['action']) {
 
-      case (($_GET['action'] == "connexion") || ($_GET['action'] == "inscription") || ($_GET['action'] == "deconnect") || ($_GET['action'] == 'forgetPassword')):
+        /**
+       * CASE AUTH GLOBAL
+       */
+      case (($_GET['action'] == "connexion") || ($_GET['action'] == "inscription") || ($_GET['action'] == "deconnect") || ($_GET['action'] == 'forgetPassword') || ($_GET['action'] == "deleteAccount")):
 
         if ($_GET['action'] == 'connexion') {
 
@@ -44,9 +50,15 @@ try {
 
             authController::userConnect();
           }
+        } else if ($_GET['action'] == 'deleteAccount') {
+
+          authController::deleteAccount($_SESSION['user_id']);
         }
         break;
 
+        /**
+         * CASE USER ACCOUNT
+         */
       case (($_GET['action'] == "mySpace") || ($_GET['action'] == "myAccount") || ($_GET['action'] == "editAccount")):
 
         if ($_GET['action'] == 'mySpace') {
@@ -59,6 +71,9 @@ try {
 
         break;
 
+        /**
+         * CASE ADMIN GLOBAL
+         */
       case (($_GET['action'] == 'adminSpace') || ($_GET['action'] == 'adminAccount') || ($_GET['action'] == 'userGestion') || ($_GET['action'] == 'adminProducts')):
 
         if ($_GET['action'] == 'adminSpace') {
@@ -72,6 +87,9 @@ try {
           adminGestionController::userDisplay();
         } else if ($_GET['action'] == 'adminProducts') {
 
+          //-------------------------------------
+          //Admin Product add, edit, suppression
+          //-------------------------------------
           if (!empty($_POST)) {
             if (isset($_POST['addCategorie'])) {
 
@@ -89,9 +107,7 @@ try {
 
               productController::elementEdit($_POST);
             }
-          }
-
-          if (isset($_GET['element'])) {
+          } else if (isset($_GET['element'])) {
 
             if (($_GET['element'] == 'product') || ($_GET['element'] == 'category') || ($_GET['element'] == 'marque') || ($_GET['element'] == 'transporteur')) {
 
@@ -111,14 +127,25 @@ try {
 
         break;
 
-      case 'deleteAccount':
+        /**
+         * CUSTOMER PRODUCT
+         * */
+      case (($_GET['action'] == 'viewProduct') || ($_GET['action'] == 'addCart') || ($_GET['action'] == 'myCart')):
 
-        authController::deleteAccount($_SESSION['user_id']);
+        if ($_GET['action'] == 'viewProduct') {
 
+          mainController::productView($_GET['id']);
+        } else if ($_GET['action'] == 'myCart') {
+
+          cartController::myCart();
+        } else if ($_GET['action'] == 'addCart') {
+
+          cartController::addCart($_GET['id']);
+        }
         break;
       default:
 
-        throw new Exception('Page not found');
+        mainController::accueilGo();
         break;
     }
   } else {

@@ -47,7 +47,7 @@ class authController
   public static function userInscription($data = null)
   {
     //check if informations on formulaire are conform
-    function formCheck(array $data): bool
+    function formCheck(array $data)
     {
       $isOk = true;
 
@@ -171,7 +171,7 @@ class authController
   public static function forgetPassword($email = null, $password = null)
   {
 
-    function passCheck(array $data): bool
+    function passCheck(array $data)
     {
       $isOk = true;
       if ($data['newPassword']) {

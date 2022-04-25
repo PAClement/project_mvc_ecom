@@ -34,7 +34,7 @@
           <td><?= $getTransporteur[$i]['nom'] ?></td>
           <td><?= $getTransporteur[$i]['logo'] ?></td>
           <?php if ($i != 0) { ?>
-            <td><button type="button" class="btn bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getTransporteur[$i]['id'] . "_Transporteur" ?>">Modifier le Transporteur</button></td>
+            <td><button type="button" class="btn bg-orange btn-bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getTransporteur[$i]['id'] . "_Transporteur" ?>">Modifier le Transporteur</button></td>
             <td><a href="index.php?action=adminProducts&element=transporteur&id=<?= $getTransporteur[$i]['id'] ?>" class="btn bg-danger text-white">Supprimer le transporteur</a></td>
 
             <div class="modal fade" id="editModal_<?= $getTransporteur[$i]['id'] . "_Transporteur" ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

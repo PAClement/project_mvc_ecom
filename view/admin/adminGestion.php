@@ -4,12 +4,14 @@
 
 include('../view/includes/header.php');
 
+
+
 if (count($tab) > 0) {
 ?>
 
   <div class="container my-5">
 
-    <h1 class="my-3">Liste des utilisateurs</h1>
+    <?php ViewTemplate::returnBtn("adminSpace", "Espace admin", "LISTE DES UTILISATEURS :") ?>
 
     <table class="table">
       <thead>

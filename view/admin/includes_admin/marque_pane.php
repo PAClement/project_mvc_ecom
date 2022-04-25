@@ -36,7 +36,7 @@
           <td><?= $getMarque[$i]['nom'] ?></td>
           <td><?= $getMarque[$i]['logo'] ?></td>
           <?php if ($i != 0) { ?>
-            <td><button type="button" class="btn bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getMarque[$i]['id'] . "_Marque" ?>">Modifier la marque</button></td>
+            <td><button type="button" class="btn bg-orange btn-bg-orange text-white" data-bs-toggle="modal" data-bs-target="#editModal_<?= $getMarque[$i]['id'] . "_Marque" ?>">Modifier la marque</button></td>
             <td><a href="index.php?action=adminProducts&element=marque&id=<?= $getMarque[$i]['id'] ?>" class="btn bg-danger text-white">Supprimer la marque</a></td>
 
             <div class="modal fade" id="editModal_<?= $getMarque[$i]['id'] . "_Marque" ?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
