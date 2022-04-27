@@ -22,11 +22,17 @@ if (isset($_SESSION['user_id'])) {
         <a class="btn bg-orange ms-3 text-white btn-bg-orange" href="index.php?action=inscription">Sign up</a>
       <?php } else if ($authorization['role_id'] == 1) { ?>
 
-        <a class="btn bg-orange text-white btn-bg-orange me-3" href="index.php?action=myCart"><i class='bx bx-cart fs-4'></i></a> <!-- <=== Temporaire -->
         <a class="btn btn-orange-outline" href="index.php?action=adminSpace">Espace Administration</a>
       <?php } else { ?>
 
-        <a class="btn bg-orange text-white btn-bg-orange me-3" href=""><i class='bx bx-cart fs-4'></i></a>
+        <a type="button" class="btn bg-orange text-white btn-bg-orange me-3 position-relative" href="index.php?action=myCart">
+          <i class='bx bx-cart fs-4'></i>
+          <?php if (isset($_SESSION['customer_cart'])) : ?>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+              <?= count($_SESSION['customer_cart']) ?>
+            </span>
+          <?php endif; ?>
+        </a>
         <a class="btn btn-orange-outline" href="index.php?action=mySpace">Espace Membre</a>
       <?php } ?>
     </ul>

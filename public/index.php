@@ -8,6 +8,7 @@ require_once('../controller/adminGestionController.php');
 require_once('../controller/membreController.php');
 require_once('../controller/productController.php');
 require_once('../controller/cartController.php');
+require_once('../controller/orderController.php');
 
 require_once('../view/classes/addons.php');
 
@@ -59,7 +60,7 @@ try {
         /**
          * CASE USER ACCOUNT
          */
-      case (($_GET['action'] == "mySpace") || ($_GET['action'] == "myAccount") || ($_GET['action'] == "editAccount")):
+      case (($_GET['action'] == "mySpace") || ($_GET['action'] == "myAccount") || ($_GET['action'] == "editAccount") || ($_GET['action'] == 'myOrder') || ($_GET['action'] == 'orderDetail')):
 
         if ($_GET['action'] == 'mySpace') {
 
@@ -67,6 +68,12 @@ try {
         } else if ($_GET['action'] == 'myAccount') {
 
           !empty($_POST) ? membreController::myAccount($_POST) : membreController::myAccount();
+        } else if ($_GET['action'] == 'myOrder') {
+
+          membreController::myOrder();
+        } else if ($_GET['action'] == 'orderDetail') {
+
+          membreController::orderDetail($_GET['id']);
         }
 
         break;
@@ -130,7 +137,7 @@ try {
         /**
          * CUSTOMER PRODUCT
          * */
-      case (($_GET['action'] == 'viewProduct') || ($_GET['action'] == 'addCart') || ($_GET['action'] == 'myCart')):
+      case (($_GET['action'] == 'viewProduct') || ($_GET['action'] == 'addCart') || ($_GET['action'] == 'delCart') || ($_GET['action'] == 'myCart') || ($_GET['action'] == 'submitCart')):
 
         if ($_GET['action'] == 'viewProduct') {
 
@@ -140,7 +147,24 @@ try {
           cartController::myCart();
         } else if ($_GET['action'] == 'addCart') {
 
-          cartController::addCart($_GET['id']);
+          $_GET['red'] == 'on' ? cartController::addCart($_GET['id'], "on") : cartController::addCart($_GET['id']);
+        } else if ($_GET['action'] == 'delCart') {
+
+          cartController::delCart($_GET['id']);
+        } else if ($_GET['action'] == 'submitCart') {
+
+          cartController::submitCart();
+        }
+        break;
+
+        /**
+         * CUSTOMER ORDER
+         * */
+      case (($_GET['action'] == 'createOrder')):
+
+        if ($_GET['action'] == 'createOrder') {
+
+          orderController::createOrder($_SESSION['customer_cart'], $_POST);
         }
         break;
       default:

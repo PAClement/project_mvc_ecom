@@ -8,6 +8,7 @@
 
   <div class="d-flex justify-content-around frameUserGlobal">
     <?php ViewTemplate::frameAccount("myAccount", "bx-user", "Votre compte")  ?>
+    <?php ViewTemplate::frameAccount("myOrder", "bxs-package", "Vos commandes")  ?>
   </div>
 
 </div>

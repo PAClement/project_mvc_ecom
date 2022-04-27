@@ -1,6 +1,7 @@
 <?php
 
 require_once("../model/ModelUser.php");
+require_once("../model/ModelOrder.php");
 require_once("../view/classes/addons.php");
 
 class membreController
@@ -65,5 +66,24 @@ class membreController
 
             header('Location: index.php');
         }
+    }
+
+    public static function myOrder()
+    {
+        $connOrder = new ModelOrder();
+
+        $tabOrder = $connOrder->getOrder($_SESSION['user_id']);
+
+        $tabOrder = array_reverse($tabOrder);
+
+        require('../view/auth/espaceMembre/myOrder.php');
+    }
+
+    public static function orderDetail($orderId)
+    {
+        $connOrderDetail = new ModelOrder();
+        $orderDetail = $connOrderDetail->orderDetail($orderId);
+
+        require('../view/orderDetail.php');
     }
 }

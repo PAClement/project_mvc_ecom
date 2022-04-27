@@ -1,25 +1,33 @@
 <?php
 
 require_once('../model/ModelProduct.php');
+require_once('../model/ModelCategory.php');
+require_once('../model/ModelMarque.php');
+require_once('../model/ModelTransporteur.php');
+
+
 
 class productController
 {
 
   public static function productPage($page = null)
   {
-    $conn = new ModelProduct();
+    $connProduct = new ModelProduct();
+    $connCategory = new ModelCategory();
+    $connMarque = new ModelMarque();
+    $connTransporteur = new ModelTransporteur();
 
-    $getCategory = $conn->getCategorie();
-    $getMarque = $conn->getMarque();
-    $getTransporteur = $conn->getTransporteur();
+    $getCategory = $connCategory->getCategorie();
+    $getMarque = $connMarque->getMarque();
+    $getTransporteur = $connTransporteur->getTransporteur();
 
     // AFFICHAGE ET PAGINATION DES PRODUITS
     $limit = 5;
     $page = isset($page) ? $page : 1;
     $start = ($page - 1) * $limit;
-    $getProduit = $conn->getAllProduit($start, $limit);
+    $getProduit = $connProduct->getAllProduit($start, $limit);
 
-    $productCount = $conn->getNumberProduct();
+    $productCount = $connProduct->getNumberProduct();
     $total = $productCount["count(id)"];
 
     $pages = ceil($total / $limit);
@@ -33,13 +41,13 @@ class productController
   {
     if ($categorieData['categorie']) {
 
-      $conn = new ModelProduct();
+      $connCategory = new ModelCategory();
 
       $categorieData['categorie'] = htmlspecialchars($categorieData['categorie']);
 
-      if (!$conn->getCategorie($categorieData['categorie'])) {
+      if (!$connCategory->getCategorie($categorieData['categorie'])) {
 
-        if ($conn->addCategorie($categorieData['categorie'])) {
+        if ($connCategory->addCategorie($categorieData['categorie'])) {
 
           ViewTemplate::response("success", "La categorie " . $categorieData['categorie'] . " à été ajouté avec succées !", "index.php?action=adminProducts");
         } else {
@@ -60,13 +68,13 @@ class productController
   {
     if ($marqueData['marque']) {
 
-      $conn = new ModelProduct();
+      $connMarque = new ModelMarque();
 
       $marqueData['marque'] = htmlspecialchars($marqueData['marque']);
 
-      if (!$conn->getMarque($marqueData['marque'])) {
+      if (!$connMarque->getMarque($marqueData['marque'])) {
 
-        if ($conn->addMarque($marqueData['marque'])) {
+        if ($connMarque->addMarque($marqueData['marque'])) {
 
           ViewTemplate::response("success", "La marque " . $marqueData['marque'] . " à été ajouté avec succées !", "index.php?action=adminProducts");
         } else {
@@ -87,13 +95,13 @@ class productController
   {
     if ($transporteurData['transporteur']) {
 
-      $conn = new ModelProduct();
+      $connTransporteur = new ModelTransporteur();
 
       $transporteurData['transporteur'] = htmlspecialchars($transporteurData['transporteur']);
 
-      if (!$conn->getTransporteur($transporteurData['transporteur'])) {
+      if (!$connTransporteur->getTransporteur($transporteurData['transporteur'])) {
 
-        if ($conn->addTransporteur($transporteurData['transporteur'])) {
+        if ($connTransporteur->addTransporteur($transporteurData['transporteur'])) {
 
           ViewTemplate::response("success", "Le transporteur " . $transporteurData['transporteur'] . " à été ajouté avec succés !", "index.php?action=adminProducts");
         } else {

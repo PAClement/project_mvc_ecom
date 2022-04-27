@@ -13,9 +13,8 @@ class ModelProduct
     private $quantite;
     private $prix;
     private $photo;
-    private $logo;
 
-    public function __construct($id = null, $nom = null, $ref = null, $description = null, $quantite = null, $prix = null, $photo = null, $logo = null)
+    public function __construct($id = null, $nom = null, $ref = null, $description = null, $quantite = null, $prix = null, $photo = null)
     {
         $this->id = $id;
         $this->nom = $nom;
@@ -24,7 +23,6 @@ class ModelProduct
         $this->quantite = $quantite;
         $this->prix = $prix;
         $this->photo = $photo;
-        $this->logo = $logo;
     }
 
 
@@ -66,7 +64,7 @@ class ModelProduct
         }
     }
 
-    public function getCartProduct($cartData)
+    public function getCartProduct($cartData, $nbData)
     {
         $idcon = connexion();
         $requete = $idcon->prepare("
@@ -74,8 +72,6 @@ class ModelProduct
             p.id,
             p.nom,
             p.ref,
-            p.description,
-            p.quantite,
             p.prix,
             c.nom as nom_category,
             m.nom as nom_marque
@@ -84,14 +80,12 @@ class ModelProduct
         INNER JOIN category c ON id_category = c.id
         INNER JOIN marque m ON id_marque = m.id
 
-        WHERE p.id IN ()
+        WHERE p.id IN (" . $nbData . ")
         ");
 
-        $requete->debugDumpParams();
-        $requete->execute(array());
-        $requete->debugDumpParams();
-        die();
-        return $requete->fetch(PDO::FETCH_ASSOC);
+        $requete->execute($cartData);
+
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getNumberProduct()
@@ -184,110 +178,6 @@ class ModelProduct
         $requete->execute(array($id));
 
         return $requete->fetchall(PDO::FETCH_ASSOC);
-    }
-
-    //============================== Model for category ============================================
-
-    public function getCategorie($categorie = null)
-    {
-        $idcon = connexion();
-
-        if ($categorie) {
-            $requete = $idcon->prepare("
-            SELECT * FROM `category` WHERE nom = ?
-        ");
-
-            $requete->execute(array($categorie));
-            return $requete->fetch(PDO::FETCH_ASSOC);
-        } else {
-            $requete = $idcon->prepare("
-            SELECT * FROM `category`
-        ");
-
-            $requete->execute();
-            return $requete->fetchAll(PDO::FETCH_ASSOC);
-        }
-    }
-
-    public function addCategorie($newCategorie)
-    {
-        $idcon = connexion();
-
-        $requete = $idcon->prepare("
-        INSERT INTO `category`(`id`, `nom`) VALUES (null,?)");
-
-        return $requete->execute(array($newCategorie));
-    }
-
-    //============================== Model for marque ============================================
-
-    public function getMarque($marque = null)
-    {
-        $idcon = connexion();
-
-        if ($marque) {
-            $requete = $idcon->prepare("
-            SELECT * FROM `marque` WHERE nom = ?
-        ");
-
-            $requete->execute(array($marque));
-            return $requete->fetch(PDO::FETCH_ASSOC);
-        } else {
-
-            $requete = $idcon->prepare("
-            SELECT * FROM `marque`
-        ");
-
-            $requete->execute();
-            return $requete->fetchAll(PDO::FETCH_ASSOC);
-        }
-    }
-
-    public function addMarque($newMarque)
-    {
-        $idcon = connexion();
-
-        $requete = $idcon->prepare("
-        INSERT INTO `marque`(`id`, `nom`, `logo`) VALUES (null,?,null)
-        ");
-
-        return $requete->execute(array($newMarque));
-    }
-
-    //============================== Model for transporteur ============================================
-
-
-    public function getTransporteur($transporteur = null)
-    {
-        $idcon = connexion();
-
-        if ($transporteur) {
-            $requete = $idcon->prepare("
-            SELECT * FROM `transporteur` WHERE nom = ?
-        ");
-
-            $requete->execute(array($transporteur));
-            return $requete->fetch(PDO::FETCH_ASSOC);
-        } else {
-
-            $requete = $idcon->prepare("
-            SELECT * FROM `transporteur`
-        ");
-
-            $requete->execute();
-            return $requete->fetchAll(PDO::FETCH_ASSOC);
-        }
-    }
-
-    public function addTransporteur($newTransporteur)
-    {
-        $idcon = connexion();
-
-        $requete = $idcon->prepare("
-        INSERT INTO `transporteur`(`id`, `nom`, `logo`) VALUES (null,?,null)
-        ");
-
-        return $requete->execute(array($newTransporteur));
     }
 
     //============================== Model suppression & edition ============================================
@@ -449,26 +339,6 @@ class ModelProduct
     public function setPhoto($photo)
     {
         $this->photo = $photo;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of logo
-     */
-    public function getLogo()
-    {
-        return $this->logo;
-    }
-
-    /**
-     * Set the value of logo
-     *
-     * @return  self
-     */
-    public function setLogo($logo)
-    {
-        $this->logo = $logo;
 
         return $this;
     }
