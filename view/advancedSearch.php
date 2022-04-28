@@ -16,30 +16,13 @@
                     <?php endif; ?>
                 </h5>
                 <h2>FILTRE :</h2>
-                <form action="" method="POST">
-                    <!-- index.php?action=filterData -->
-                    <input type="text" class="d-none" name="search" value="<?= $searchData['search'] ?>">
-                    <label class="mt-3" for="categorie">Selectionnez une catégorie :</label>
-                    <select id="categorie" class="form-select mb-3" name="category" aria-label="select Categorie">
-                        <?php foreach ($tabCategory as $catVal) : ?>
-                            <?php if (isset($searchCategory) && $searchCategory == $catVal['nom']) : ?>
-                                <option value="<?= $catVal['nom'] ?>" selected><?= $catVal['nom'] ?></option>
-                            <?php else : ?>
-                                <option value="<?= $catVal['nom'] ?>"><?= $catVal['nom'] ?></option>
-                            <?php endif; ?>
-                        <?php endforeach; ?>
-                    </select>
-                    <label class="mt-3" for="categorie">Selectionnez une marque :</label>
-                    <select id="categorie" class="form-select mb-3" name="marque" aria-label="select Marque">
-                        <?php foreach ($tabMarque as $marqVal) : ?>
-                            <option value="<?= $marqVal['nom'] ?>"><?= $marqVal['nom'] ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                    <div class="d-flex flex-column">
-                        <button type="submit" name="filter" class="btn bg-orange btn-bg-orange text-white mt-5">Filtrer !</button>
-                        <button type="reset" class="btn btn-danger text-white mt-2">Reinitialiser le filtre</button>
-                    </div>
-                </form>
+                <?php foreach ($tabCategory as $catVal) : ?>
+                    <?php if (isset($searchCategory) && $searchCategory == $catVal['nom']) : ?>
+                        <a class="text-danger"><?= $catVal['nom'] ?></a>
+                    <?php else : ?>
+                        <a><?= $catVal['nom'] ?></a>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </div>
         </div>
 

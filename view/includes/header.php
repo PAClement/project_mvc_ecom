@@ -15,7 +15,7 @@ $tabCategoryHeader = $connCategoryHeader->latestCategory();
     <ul class="nav me-auto">
       <?php foreach ($tabCategoryHeader as $valHeader) : ?>
         <li class="nav-item">
-          <a href="index.php?action=advancedSearchCategory&category_nom=<?= $valHeader['nom'] ?>" class="nav-link link-light px-2"><?= $valHeader['nom'] ?></a>
+          <a href="index.php?action=advancedSearchCategory&category_nom=<?= $valHeader['nom'] ?>" class="nav-link link-light px-2 text-uppercase"><?= $valHeader['nom'] ?></a>
         </li>
       <?php endforeach; ?>
     </ul>

@@ -14,7 +14,7 @@ class searchController
         $connCategory = new ModelCategory();
         $connMarque = new ModelMarque();
 
-        $searchData['search'] = trim($searchData['search'], "\x00..\x1F");
+        $searchData != null ? $searchData['search'] = trim($searchData['search'], "\x00..\x1F") : "";
 
         $searchData != null ? $tabSearch = $connSearch->resultSearch($searchData['search'], null) : $tabSearch = $connSearch->resultSearch(null, $searchCategory);
 
