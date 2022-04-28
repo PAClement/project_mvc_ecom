@@ -74,7 +74,7 @@ class membreController
 
         $tabOrder = $connOrder->getOrder($_SESSION['user_id']);
 
-        $tabOrder = array_reverse($tabOrder);
+        // $tabOrder = array_reverse($tabOrder);
 
         require('../view/auth/espaceMembre/myOrder.php');
     }
@@ -84,6 +84,6 @@ class membreController
         $connOrderDetail = new ModelOrder();
         $orderDetail = $connOrderDetail->orderDetail($orderId);
 
-        require('../view/orderDetail.php');
+        require('../view/auth/espaceMembre/orderDetail.php');
     }
 }

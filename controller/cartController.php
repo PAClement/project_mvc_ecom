@@ -9,7 +9,7 @@ class cartController
     {
         $conn = new ModelProduct();
 
-        if ($_SESSION['customer_cart']) {
+        if (isset($_SESSION['customer_cart']) && $_SESSION['customer_cart']) {
 
             $nbData = "";
             for ($i = 0; $i < count($_SESSION['customer_cart']); $i++) {

@@ -17,10 +17,13 @@ ob_start(); ?>
         <div class="card-header">
           <div class="row">
             <div class="col-3">
-              commande effectué le<br> <?= $valueOrder['date_commande'] ?>
+              <strong>Commande effectué le</strong><br> <?= $valueOrder['date_commande'] ?>
             </div>
-            <div class="col-6">
+            <div class="col-3">
               Total <br> <?= $valueOrder['prix'] ?> €
+            </div>
+            <div class="col-3">
+              Mode de livraison <br> <?= $valueOrder['mode'] ?>
             </div>
             <div class="col-3">
               Transporteur <br> <?= $valueOrder['nom'] ?>
@@ -35,7 +38,15 @@ ob_start(); ?>
 
             </div>
             <div class="col-3">
-              <h3><?= $valueOrder['etat'] ?></h3>
+              <h3 class="
+                  <?php if ($valueOrder['etat'] == 'En attente') : ?>
+                    text-warning
+                  <?php elseif ($valueOrder['etat'] == 'Livraison') : ?>
+                    text-success
+                  <?php elseif ($valueOrder['etat'] == 'Refusée') : ?>
+                    text-danger
+                  <?php endif; ?>
+              "><?= $valueOrder['etat'] ?></h3>
             </div>
           </div>
         </div>

@@ -15,6 +15,7 @@ class orderController
     $createOrder = [
       'date_commande' => $dateNow,
       'etat' => 'En attente',
+      'mode' => $postData['mode'],
       'prix' => $postData['orderPrix'],
       'id_client' => $postData['address'],
       'id_transporteur' => $postData['transporteur']

@@ -6,10 +6,11 @@
 
 <div class="container my-5 pb-5">
 
-    <div class="d-flex justify-content-around frameUserGlobal">
+    <div class="d-flex justify-content-around frameUserGlobal flex-wrap">
         <?php ViewTemplate::frameAccount("adminAccount", "bx-user", "Votre compte")  ?>
         <?php ViewTemplate::frameAccount("userGestion", "bxs-group", "Gestion utilisateur")  ?>
         <?php ViewTemplate::frameAccount("adminProducts", "bxl-product-hunt", "Gestion produits et +")  ?>
+        <?php ViewTemplate::frameAccount("adminOrder", "bxs-package", "Gestion commandes")  ?>
     </div>
 
 </div>

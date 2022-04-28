@@ -105,8 +105,32 @@ class ModelProduct
     {
         $idcon = connexion();
 
-        if ($start != null && $limit != null) {
-            $requete = $idcon->prepare("
+        $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+        ");
+
+        $requete->execute();
+
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getProduitPagination($start, $limit)
+    {
+        $idcon = connexion();
+
+        $requete = $idcon->prepare("
             SELECT
                 p.id,
                 p.nom,
@@ -122,23 +146,6 @@ class ModelProduct
             INNER JOIN marque m ON id_marque = m.id
             LIMIT " . $start . ", " . $limit . "
         ");
-        } else {
-            $requete = $idcon->prepare("
-            SELECT
-                p.id,
-                p.nom,
-                p.ref,
-                p.description,
-                p.quantite,
-                p.prix,
-                c.nom as nom_category,
-                m.nom as nom_marque
-            FROM
-                `product` p
-            INNER JOIN category c ON id_category = c.id
-            INNER JOIN marque m ON id_marque = m.id
-        ");
-        }
 
         $requete->execute();
 
@@ -202,6 +209,62 @@ class ModelProduct
         ");
         return $requete->execute(array($ediData, $editId));
     }
+
+    //=============================== Advanced Search =========================================================
+
+    public function resultSearch($searchData = null, $categoryData = null)
+    {
+
+        $idcon = connexion();
+
+        if ($searchData != null) {
+
+            $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+           
+            WHERE p.nom LIKE ?
+        ");
+
+            $requete->execute(array("%" . $searchData . "%"));
+        } else {
+
+            $requete = $idcon->prepare("
+            SELECT
+                p.id,
+                p.nom,
+                p.ref,
+                p.description,
+                p.quantite,
+                p.prix,
+                c.nom as nom_category,
+                m.nom as nom_marque
+            FROM
+                `product` p
+            INNER JOIN category c ON id_category = c.id
+            INNER JOIN marque m ON id_marque = m.id
+        
+            WHERE c.nom = ?
+    ");
+
+            $requete->execute(array($categoryData));
+        }
+
+        return $requete->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+
 
     /**
      * Get the value of id

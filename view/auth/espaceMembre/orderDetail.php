@@ -13,7 +13,9 @@ ob_start(); ?>
   <div class="row">
     <div class="col-9">
       <h3>Commande n° <?= $orderDetail[0]['id'] ?></h3>
-      <h6>Effectuée le <?= $orderDetail[0]['date_commande'] ?></h6>
+      <h5 class="mb-3 p-color-orange">Effectuée le <?= $orderDetail[0]['date_commande'] ?></h5>
+      <h6 class="my-3">Transporteur : <?= $orderDetail[0]['nom_transporteur'] ?></h6>
+      <h6 class="my-3">Mode de livraison : <?= $orderDetail[0]['mode'] ?></h6>
       <?php foreach ($orderDetail as $valueCart) : ?>
         <div class="row border-bottom py-3 my-5">
           <div class="col-9">
@@ -29,7 +31,15 @@ ob_start(); ?>
       <?php endforeach; ?>
     </div>
     <div class="col-3">
-      <h5><?= $orderDetail[0]['etat'] ?></h5>
+      <h5 class="
+        <?php if ($orderDetail[0]['etat'] == 'En attente') : ?>
+          text-warning
+        <?php elseif ($orderDetail[0]['etat'] == 'Livraison') : ?>
+          text-success
+        <?php elseif ($orderDetail[0]['etat'] == 'Refusée') : ?>
+          text-danger
+        <?php endif; ?>
+      "><?= $orderDetail[0]['etat'] ?></h5>
       <h4 class="mb-5"><?= $orderDetail[0]['commande_prix'] ?> €</h4>
     </div>
   </div>

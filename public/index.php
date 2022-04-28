@@ -9,6 +9,8 @@ require_once('../controller/membreController.php');
 require_once('../controller/productController.php');
 require_once('../controller/cartController.php');
 require_once('../controller/orderController.php');
+require_once('../controller/adminOrderController.php');
+require_once('../controller/searchController.php');
 
 require_once('../view/classes/addons.php');
 
@@ -60,7 +62,7 @@ try {
         /**
          * CASE USER ACCOUNT
          */
-      case (($_GET['action'] == "mySpace") || ($_GET['action'] == "myAccount") || ($_GET['action'] == "editAccount") || ($_GET['action'] == 'myOrder') || ($_GET['action'] == 'orderDetail')):
+      case (($_GET['action'] == "mySpace") || ($_GET['action'] == "myAccount") || ($_GET['action'] == "editAccount")):
 
         if ($_GET['action'] == 'mySpace') {
 
@@ -68,12 +70,6 @@ try {
         } else if ($_GET['action'] == 'myAccount') {
 
           !empty($_POST) ? membreController::myAccount($_POST) : membreController::myAccount();
-        } else if ($_GET['action'] == 'myOrder') {
-
-          membreController::myOrder();
-        } else if ($_GET['action'] == 'orderDetail') {
-
-          membreController::orderDetail($_GET['id']);
         }
 
         break;
@@ -81,7 +77,7 @@ try {
         /**
          * CASE ADMIN GLOBAL
          */
-      case (($_GET['action'] == 'adminSpace') || ($_GET['action'] == 'adminAccount') || ($_GET['action'] == 'userGestion') || ($_GET['action'] == 'adminProducts')):
+      case (($_GET['action'] == 'adminSpace') || ($_GET['action'] == 'adminAccount') || ($_GET['action'] == 'userGestion') || ($_GET['action'] == 'adminProducts')  || ($_GET['action'] == 'adminOrder') || ($_GET['action'] == 'adminOrderDetail') || ($_GET['action'] == 'stateOrder')):
 
         if ($_GET['action'] == 'adminSpace') {
 
@@ -130,6 +126,15 @@ try {
 
             productController::productPage();
           }
+        } else if ($_GET['action'] == 'adminOrder') {
+
+          adminOrderController::adminOrder();
+        } else if ($_GET['action'] == 'adminOrderDetail') {
+
+          adminOrderController::adminOrderDetail($_GET['command_id']);
+        } else if ($_GET['action'] == 'stateOrder') {
+
+          adminOrderController::adminSetState($_GET['etat'], $_GET['command_id']);
         }
 
         break;
@@ -160,11 +165,39 @@ try {
         /**
          * CUSTOMER ORDER
          * */
-      case (($_GET['action'] == 'createOrder')):
+      case (($_GET['action'] == 'createOrder') || ($_GET['action'] == 'myOrder') || ($_GET['action'] == 'orderDetail')):
 
         if ($_GET['action'] == 'createOrder') {
 
           orderController::createOrder($_SESSION['customer_cart'], $_POST);
+        } else if ($_GET['action'] == 'myOrder') {
+
+          membreController::myOrder();
+        } else if ($_GET['action'] == 'orderDetail') {
+
+          membreController::orderDetail($_GET['id']);
+        }
+        break;
+
+      case (($_GET['action'] == 'advancedSearch') || ($_GET['action'] == 'advancedSearchCategory') || ($_GET['action'] == 'filterData')):
+        if (!empty($_POST)) {
+
+          if (isset($_POST['search']) && $_POST['search'] != "" && !isset($_POST['filter'])) {
+
+            searchController::advancedSearch($_POST);
+          } else if (isset($_POST['filter'])) {
+
+            // searchController::searchFilter($_POST);
+          } else {
+
+            mainController::accueilGo();
+          }
+        } else if ($_GET['action'] == 'advancedSearchCategory') {
+
+          searchController::advancedSearch(null, $_GET['category_nom']);
+        } else {
+
+          mainController::accueilGo();
         }
         break;
       default:

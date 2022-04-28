@@ -20,6 +20,11 @@
                 </ul>
                 <div class="card-footer py-3">
                     <a href="index.php?action=viewProduct&id=<?= $productList[$i]['id'] ?>" class="btn bg-orange btn-bg-orange text-white">Voir le produit</a>
+                    <?php if (isset($_SESSION['user_id'])) : ?>
+                        <a href="index.php?action=addCart&id=<?= $productList[$i]['id'] ?>" class="btn bg-orange text-white btn-bg-orange">
+                            <i class='bx bx-cart-download fs-4'></i>
+                        </a>
+                    <?php endif; ?>
                 </div>
             </div>
         <?php endfor; ?>

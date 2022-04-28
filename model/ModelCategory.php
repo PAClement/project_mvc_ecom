@@ -46,6 +46,19 @@ class ModelCategory
     return $requete->execute(array($newCategorie));
   }
 
+  public function latestCategory()
+  {
+
+    $idcon = connexion();
+
+    $requete = $idcon->prepare("
+    SELECT nom FROM category ORDER BY id DESC LIMIT 5
+    ");
+
+    $requete->execute();
+    return $requete->fetchAll(PDO::FETCH_ASSOC);
+  }
+
 
 
   /**

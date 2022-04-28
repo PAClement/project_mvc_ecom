@@ -2,7 +2,7 @@
 
 ob_start(); ?>
 
-<div class="container col-3 d-flex flex-column gap-5 p-5 bg-main text-white">
+<div class="container col-5 d-flex flex-column gap-5 p-5 bg-main text-white">
   <h1 class="text-center">E - COM</h1>
   <form action="index.php?action=connexion" class="my-5" method="POST">
     <h2 class="mb-3">Connexion</h2>

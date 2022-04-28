@@ -22,6 +22,23 @@ ob_start(); ?>
         </div>
       </div>
       <div class="card-body">
+        <h4>2 - Mode de livraison : </h4>
+        <div class="col-6 pt-3 ps-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="Point relais" name="mode" id="pointrelais">
+            <label class="form-check-label" for="pointrelais">
+              Point Relais
+            </label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" value="Domicile" name="mode" id="domicile" checked>
+            <label class="form-check-label" for="domicile">
+              Domicile
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="card-body">
         <h4>2 - Adresse de livraison : </h4>
         <div class="col-6 pt-3 ps-3">
           <div class="form-check">

@@ -1,7 +1,8 @@
 <?php $title = 'Article view'; ?>
 
 <?php ob_start(); ?>
-
+<?php //javascript:history.go(-1)
+?>
 <?php include('includes/header.php') ?>
 
 <div class="container">
@@ -14,10 +15,16 @@
             <h2 class="mb-5"><?= $oneProduct["nom"] ?></h2>
             <h6 class="mb-5"><?= $oneProduct["description"] ?></h6>
             <h3 class="mb-5"><?= $oneProduct["prix"] ?> €</h3>
-            <a href="index.php?action=addCart&id=<?= $oneProduct['id'] ?>" class="btn bg-orange text-white btn-bg-orange">
-                <i class='bx bx-cart-download fs-4'></i>
-                <span class="align-top"> Ajouter au panier</span>
-            </a>
+            <?php if (isset($_SESSION['user_id'])) : ?>
+                <a href="index.php?action=addCart&id=<?= $oneProduct['id'] ?>" class="btn bg-orange text-white btn-bg-orange">
+                    <i class='bx bx-cart-download fs-4'></i>
+                    <span class="align-top"> Ajouter au panier</span>
+                </a>
+            <?php else : ?>
+                <a href="index.php?action=connexion" class="btn bg-orange text-white btn-bg-orange">
+                    Se connecter pour ajouter au panier
+                </a>
+            <?php endif; ?>
             <ul class="mt-5">
                 <li>Categorie : <?= $oneProduct["nom_category"] ?></li>
                 <li>Marque : <?= $oneProduct["nom_marque"] ?></li>

@@ -34,6 +34,7 @@ class ModelOrder
         c.id,
         c.date_commande,
         c.etat,
+        c.mode,
         c.prix,
         t.nom
     FROM
@@ -64,10 +65,10 @@ class ModelOrder
       `id_client`,
       `id_transporteur`
       )
-      VALUES(NULL, ?, ?, NULL, ?, ?, (SELECT id FROM transporteur WHERE nom = ?))
+      VALUES(NULL, ?, ?, ?, ?, ?, (SELECT id FROM transporteur WHERE nom = ?))
     ");
 
-    $requete->execute(array($submitData['date_commande'], $submitData['etat'], $submitData['prix'], $submitData['id_client'], $submitData['id_transporteur']));
+    $requete->execute(array($submitData['date_commande'], $submitData['etat'], $submitData['mode'], $submitData['prix'], $submitData['id_client'], $submitData['id_transporteur']));
 
     for ($i = 0; $i < count($datadetails); $i++) {
 
@@ -93,6 +94,7 @@ class ModelOrder
         c.id,
         c.date_commande,
         c.etat,
+        c.mode,
         c.prix as commande_prix,
         t.nom as nom_transporteur,
         p.nom as nom_produit,
@@ -117,6 +119,38 @@ class ModelOrder
     return $requete->fetchAll(PDO::FETCH_ASSOC);
   }
 
+  public function getAllOrder($state)
+  {
+    $idcon = connexion();
+
+    $requete = $idcon->prepare("
+
+      SELECT
+          c.id as command_id,
+          c.date_commande,
+          c.etat,
+          u.mail
+      FROM  `commande` c
+      INNER JOIN users u ON
+          c.id_client = u.id
+      WHERE c.etat = ?
+
+    ");
+
+    $requete->execute(array($state));
+    return $requete->fetchAll(PDO::FETCH_ASSOC);
+  }
+
+  public function changeState($state, $commandId)
+  {
+    $idcon = connexion();
+
+    $requete = $idcon->prepare("
+      UPDATE `commande` SET `etat`= ? WHERE id = ?
+    ");
+
+    return $requete->execute(array($state, $commandId));
+  }
 
 
   /**

@@ -2,18 +2,22 @@
 if (isset($_SESSION['user_id'])) {
 
   $viewConn = new ModelUser();
+
   $authorization = $viewConn->getUserById($_SESSION['user_id']);
 }
+
+$connCategoryHeader = new ModelCategory();
+$tabCategoryHeader = $connCategoryHeader->latestCategory();
 ?>
 
 <nav class="py-2 bg-main">
   <div class="container d-flex flex-wrap py-2">
     <ul class="nav me-auto">
-      <li class="nav-item"><a href="#" class="nav-link link-light px-2 ">CATEGORY 1</a></li>
-      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 2</a></li>
-      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 3</a></li>
-      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 4</a></li>
-      <li class="nav-item"><a href="#" class="nav-link link-light px-2">CATEGORY 5</a></li>
+      <?php foreach ($tabCategoryHeader as $valHeader) : ?>
+        <li class="nav-item">
+          <a href="index.php?action=advancedSearchCategory&category_nom=<?= $valHeader['nom'] ?>" class="nav-link link-light px-2"><?= $valHeader['nom'] ?></a>
+        </li>
+      <?php endforeach; ?>
     </ul>
     <ul class="nav">
       <?php if (!isset($_SESSION['user_id'])) { ?>
@@ -43,8 +47,8 @@ if (isset($_SESSION['user_id'])) {
     <a href="/" class="d-flex align-items-center mb-lg-0 me-lg-auto text-white text-decoration-none">
       <span class="fs-1 ">E - COM</span>
     </a>
-    <form class="col-6 mb-lg-0">
-      <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+    <form action="index.php?action=advancedSearch" method="POST" class="col-6 mb-lg-0">
+      <input type="search" class="form-control" name="search" placeholder="Search..." value="<?= isset($searchData['search']) ? $searchData['search'] : "" ?>" aria-label="Search">
     </form>
   </div>
 </header>

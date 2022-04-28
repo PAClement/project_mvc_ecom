@@ -25,7 +25,7 @@ class productController
     $limit = 5;
     $page = isset($page) ? $page : 1;
     $start = ($page - 1) * $limit;
-    $getProduit = $connProduct->getAllProduit($start, $limit);
+    $getProduit = $connProduct->getProduitPagination($start, $limit);
 
     $productCount = $connProduct->getNumberProduct();
     $total = $productCount["count(id)"];
