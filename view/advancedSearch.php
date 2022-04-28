@@ -18,9 +18,9 @@
                 <h2>FILTRE :</h2>
                 <?php foreach ($tabCategory as $catVal) : ?>
                     <?php if (isset($searchCategory) && $searchCategory == $catVal['nom']) : ?>
-                        <a class="text-danger"><?= $catVal['nom'] ?></a>
+                        <a class="my-1 text-danger text-decoration-none"><?= $catVal['nom'] ?></a>
                     <?php else : ?>
-                        <a><?= $catVal['nom'] ?></a>
+                        <a class="my-1 text-decoration-none"><?= $catVal['nom'] ?></a>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>
