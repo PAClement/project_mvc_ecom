@@ -17,10 +17,10 @@
                 </h5>
                 <h2>FILTRE :</h2>
                 <?php foreach ($tabCategory as $catVal) : ?>
-                    <?php if (isset($searchCategory) && $searchCategory == $catVal['nom']) : ?>
-                        <a class="my-1 text-danger text-decoration-none"><?= $catVal['nom'] ?></a>
-                    <?php else : ?>
-                        <a class="my-1 text-decoration-none"><?= $catVal['nom'] ?></a>
+                    <?php if (isset($searchCategory) && $searchCategory == $catVal['nom'] && $catVal['nom'] != 'Toutes categories') : ?>
+                        <a href="index.php?action=advancedSearchCategory&category_nom=<?= $catVal['nom'] ?>" class="my-1 text-danger text-decoration-none"><?= $catVal['nom'] ?></a>
+                    <?php elseif ($catVal['nom'] != 'Toutes categories') : ?>
+                        <a href="index.php?action=advancedSearchCategory&category_nom=<?= $catVal['nom'] ?>" class="my-1 text-decoration-none"><?= $catVal['nom'] ?></a>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </div>

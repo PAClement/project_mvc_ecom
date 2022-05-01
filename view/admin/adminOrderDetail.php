@@ -12,8 +12,10 @@ include('../view/includes/header.php');
 
     <div class="row">
         <div class="d-flex mb-5">
-            <a class="btn btn-success me-3" href="index.php?action=stateOrder&etat=Livraison&command_id=<?= $orderDetail[0]['id'] ?>">Accepter la commande</a>
-            <a class="btn btn-danger" href="index.php?action=stateOrder&etat=Refusée&command_id=<?= $orderDetail[0]['id'] ?>">Refusée la commande</a>
+            <?php if ($orderDetail[0]['etat'] == 'En attente') : ?>
+                <a class="btn btn-success me-3" href="index.php?action=stateOrder&etat=Livraison&command_id=<?= $orderDetail[0]['id'] ?>">Accepter la commande</a>
+                <a class="btn btn-danger" href="index.php?action=stateOrder&etat=Refusée&command_id=<?= $orderDetail[0]['id'] ?>">Refusée la commande</a>
+            <?php endif; ?>
         </div>
         <div class="col-9">
             <h3>Commande n° <?= $orderDetail[0]['id'] ?></h3>
@@ -36,14 +38,14 @@ include('../view/includes/header.php');
         </div>
         <div class="col-3">
             <h5 class="
-        <?php if ($orderDetail[0]['etat'] == 'En attente') : ?>
-          text-warning
-        <?php elseif ($orderDetail[0]['etat'] == 'Livraison') : ?>
-          text-success
-        <?php elseif ($orderDetail[0]['etat'] == 'Refusée') : ?>
-          text-danger
-        <?php endif; ?>
-      "><?= $orderDetail[0]['etat'] ?></h5>
+                    <?php if ($orderDetail[0]['etat'] == 'En attente') : ?>
+                    text-warning
+                    <?php elseif ($orderDetail[0]['etat'] == 'Livraison') : ?>
+                    text-success
+                    <?php elseif ($orderDetail[0]['etat'] == 'Refusée') : ?>
+                    text-danger
+                    <?php endif; ?>
+                "><?= $orderDetail[0]['etat'] ?></h5>
             <h4 class="mb-5"><?= $orderDetail[0]['commande_prix'] ?> €</h4>
         </div>
     </div>

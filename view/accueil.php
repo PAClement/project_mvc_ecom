@@ -6,28 +6,28 @@
 
 <div class="container">
     <div class="d-flex justify-content-between my-5 flex-wrap gap-3">
-        <?php for ($i = 0; $i < count($productList); $i++) : ?>
+        <?php foreach ($productList as $valProduct) : ?>
             <div class="card" style="width: 18rem;">
                 <!-- <img src="https://via.placeholder.com/1500" class="card-img-top" alt="..."> -->
                 <div class="card-body">
-                    <h5 class="card-title"><?= $productList[$i]['nom'] ?></h5>
-                    <p class="card-text"><?= $productList[$i]['description'] ?></p>
+                    <h5 class="card-title"><?= $valProduct['nom'] ?></h5>
+                    <p class="card-text"><?= $valProduct['description'] ?></p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Prix : <?= $productList[$i]['prix'] ?> € </li>
-                    <li class="list-group-item">Marque : <?= $productList[$i]['nom_marque'] ?></li>
-                    <li class="list-group-item">Categorie : <?= $productList[$i]['nom_category'] ?></li>
+                    <li class="list-group-item">Prix : <?= $valProduct['prix'] ?> € </li>
+                    <li class="list-group-item">Marque : <?= $valProduct['nom_marque'] ?></li>
+                    <li class="list-group-item">Categorie : <?= $valProduct['nom_category'] ?></li>
                 </ul>
                 <div class="card-footer py-3">
-                    <a href="index.php?action=viewProduct&id=<?= $productList[$i]['id'] ?>" class="btn bg-orange btn-bg-orange text-white">Voir le produit</a>
+                    <a href="index.php?action=viewProduct&id=<?= $valProduct['id'] ?>" class="btn bg-orange btn-bg-orange text-white">Voir le produit</a>
                     <?php if (isset($_SESSION['user_id'])) : ?>
-                        <a href="index.php?action=addCart&id=<?= $productList[$i]['id'] ?>" class="btn bg-orange text-white btn-bg-orange">
+                        <a href="index.php?action=addCart&id=<?= $valProduct['id'] ?>" class="btn bg-main text-white">
                             <i class='bx bx-cart-download fs-4'></i>
                         </a>
                     <?php endif; ?>
                 </div>
             </div>
-        <?php endfor; ?>
+        <?php endforeach; ?>
     </div>
 </div>
 
